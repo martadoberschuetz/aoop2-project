@@ -4,12 +4,13 @@ import java.util.Date;
 
 public abstract class Gala {
 
+	// data members
 	private static int id;
 	private int galaId;
 	private Date galaDate;
 	private String galaName;
 	private String galaOrganiserName;
-	private int galaOrganiserPhoneNumber;
+	private long galaOrganiserPhoneNumber;
 	private String galaOrganiserEmail;
 	private String poolAddress;
 	private int durationInDays;
@@ -18,9 +19,27 @@ public abstract class Gala {
 	enum TypeOfTiming {manual, electronic};
 	private int payment;
 	
+	// no-argument constructor
+	@SuppressWarnings("static-access")
+	public Gala() {
 		
+		id++;
+		setGalaId(id);
+		setGalaDate(new Date());
+		setGalaName("unknown");
+		setGalaOrganiserName("unknown");
+		setGalaOrganiserPhoneNumber(00000000);
+		setGalaOrganiserEmail("unknown");
+		setPoolAddress("unknown");
+		setDurationInDays(0);
+		setPoolLength(25);
+		setTypeOfTiming(TypeOfTiming.electronic);
+		setPayment(0);
+	}
+	
+	// full-argument constructor	
 	public Gala(Date galaDate, String galaName, String galaOrganiserName,
-			int galaOrganiserPhoneNumber, String galaOrganiserEmail,
+			long galaOrganiserPhoneNumber, String galaOrganiserEmail,
 			String poolAddress, int durationInDays, int poolLength,
 			TypeOfTiming typeOfTyming, int payment) {
 		
@@ -66,23 +85,23 @@ public abstract class Gala {
 	public void setGalaOrganiserName(String galaOrganiserName) {
 		this.galaOrganiserName = galaOrganiserName;
 	}
-	public String getGalaOrganiserName(String galaOrganiserName){
+	public String getGalaOrganiserName(){
 		return galaOrganiserName;
 	}
 	
 	// phone number of the gala organiser
-	public void setGalaOrganiserPhoneNumber(int galaOrganiserPhoneNumber) {
+	public void setGalaOrganiserPhoneNumber(long galaOrganiserPhoneNumber) {
 		this.galaOrganiserPhoneNumber = galaOrganiserPhoneNumber;		
 	}
-	public int getGalaOrganiserPhoneNumber(int galaOrgainserPhoneNumber){
-		return galaOrgainserPhoneNumber;
+	public long getGalaOrganiserPhoneNumber(){
+		return galaOrganiserPhoneNumber;
 	}
 	
 	// email of the gala organiser
 	public void setGalaOrganiserEmail(String galaOrganiserEmail) {
 		this.galaOrganiserEmail = galaOrganiserEmail;		
 	}
-	public String getGalaOrganiserEmail(String galaOrganiserEmail){
+	public String getGalaOrganiserEmail(){
 		return galaOrganiserEmail;
 	}
 	
@@ -90,7 +109,7 @@ public abstract class Gala {
 	public void setPoolAddress(String poolAddress) {
 		this.poolAddress = poolAddress;
 	}
-	public String getPoolAddress(String poolAddress) {
+	public String getPoolAddress() {
 		return poolAddress;
 	}
 	
@@ -129,22 +148,22 @@ public abstract class Gala {
 	// the toString() method
 	@Override
 	public String toString() {
-		return "The ID of the gala is: " + galaId 
-				+ ",\n the date of the gala is: " + galaDate
-				+ ",\n the name of the gala is: " + galaName
-				+ ",\n the name of the gala organiser is: " + galaOrganiserName
-				+ ",\n the phone number of the gala organiser is: " + galaOrganiserPhoneNumber
-				+ ",\n the email of the gala organiser is: " + galaOrganiserEmail
-				+ ",\n the address of the pool is: " + poolAddress
-				+ ",\n duration of the gala in days is: " + durationInDays
-				+ ",\n the length of the pool is: " + poolLength
-				+ ",\n payment for one event is: " + payment;
+		return "The ID of the gala is: " + getGalaId() 
+				+ ",\nthe date of the gala is: " + getGalaDate()
+				+ ",\nthe name of the gala is: " + getGalaName()
+				+ ",\nthe name of the gala organiser is: " + getGalaOrganiserName()
+				+ ",\nthe phone number of the gala organiser is: " + getGalaOrganiserPhoneNumber()
+				+ ",\nthe email of the gala organiser is: " + getGalaOrganiserEmail()
+				+ ",\nthe address of the pool is: " + getPoolAddress()
+				+ ",\nduration of the gala in days is: " + getDurationInDays()
+				+ ",\nthe length of the pool is: " + getPoolLength() + "m"
+				+ ",\npayment for one event is: " + getPayment() + " euro.";
 	}
 	
 	/*
 	 * @param minutes minutes in the entry time
-	 * @param seconds secodns in the entry time
-	 * @param splitSeconds seconds in the entry time
+	 * @param seconds seconds in the entry time
+	 * @param splitSeconds split seconds in the entry time
 	 * @return time entry time
 	 * */
 	public int convertTime(int minutes, int seconds, int splitSeconds){

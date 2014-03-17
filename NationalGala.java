@@ -2,10 +2,15 @@ package project;
 
 import java.util.Date;
 
-import project.Gala.TypeOfTiming;
-
 public class NationalGala extends Gala{
-
+	
+	
+	// no-argument constructor is inherited from the superclass
+	public NationalGala(){
+		super();		
+	}	
+	
+	// full-argument constructor is inherited from the superclass
 	public NationalGala(Date galaDate, String galaName,
 			String galaOrganiserName, int galaOrganiserPhoneNumber,
 			String galaOrganiserEmail, String poolAddress, int durationInDays,
@@ -15,7 +20,4 @@ public class NationalGala extends Gala{
 				typeOfTyming, payment);
 
 	}
-
-	
-
 }

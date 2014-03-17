@@ -1,19 +1,21 @@
 package project;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
+
 
 public class Swimmer {
 
-	//data members
+	// data members
 	private static int id = 0;
 	private int swimmerID;
 	private String forename;
 	private String surname;
-	private Date dateOfBirth;
-	private static Gender Gender;
-	private enum Gender {female, male};
+	private GregorianCalendar dateOfBirth;
+	private int age;
+	private Gender Gender;
+	enum Gender {female, male};
 	private static Status Status;
-	private enum Status {active, inactive};
+	enum Status {active, inactive};
 	private int phoneNumber;
 	private String email;
 	private String medicalConditions;
@@ -22,28 +24,49 @@ public class Swimmer {
 	private int nextOfKinPhoneNumber;
 	private String swimClubName;
 	
-	
-	public Swimmer(int swimmerID, String forename, String surname,
-			Date dateOfBirth, Gender gender, int phoneNumber, String email,
+	// 0-argument constructor
+	@SuppressWarnings("static-access")
+	public Swimmer(){
+		
+		id++;
+		setSwimmerID(id);
+		setForename("unknown");
+		setSurname("unknown");
+		setDateOfBirth(new GregorianCalendar());
+		setAge();
+		setGender(Gender.male);
+		setPhoneNumber(00000000);
+		setEmail("unknown");
+		setMedicalConditions("unknown");
+		setMedication("unknown");
+		setNextOfKinName("unknown");
+		setNextOfKinPhoneNumber(00000000);
+		setSwimClubName("unknown");
+		Swimmer.setStatus(Status.inactive);
+	}
+		
+	// full-argument constructor
+	public Swimmer(String forename, String surname,
+			GregorianCalendar dateOfBirth, Gender gender, int phoneNumber, String email,
 			String medicalConditions, String medication,
 			String nextOfKinName, int nextOfKinPhoneNumber,
 			String swimClubName, Status status) {
 		
 		id++;
-		this.swimmerID = id;
-		this.forename = forename;
-		this.surname = surname;
-		this.dateOfBirth = dateOfBirth;
-		Swimmer.Gender = gender;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
-		this.medicalConditions = medicalConditions;
-		this.medication = medication;
-		this.nextOfKinName = nextOfKinName;
-		this.nextOfKinPhoneNumber = nextOfKinPhoneNumber;
-		this.swimClubName = swimClubName;
+		setSwimmerID(id);
+		setForename(forename);
+		setSurname(surname);
+		setDateOfBirth(dateOfBirth);
+		setAge();
+		setGender(gender);
+		setPhoneNumber(phoneNumber);
+		setEmail(email);
+		setMedicalConditions(medicalConditions);
+		setMedication(medication);
+		setNextOfKinName(nextOfKinName);
+		setNextOfKinPhoneNumber(nextOfKinPhoneNumber);
+		setSwimClubName(swimClubName);
 		Swimmer.setStatus(status);
-		
 	}
 
 	//getters and setters for id
@@ -52,6 +75,54 @@ public class Swimmer {
 	}
 	public void setSwimmerID(int swimmerID) {
 		this.swimmerID = swimmerID;
+	}
+	
+	// setters and getters for medication
+	public String getMedication() {
+		return medication;
+	}
+	public void setMedication(String medication) {
+		this.medication = medication;
+	}
+
+	// setters and getters for the name of the next of kin
+	public String getNextOfKinName() {
+		return nextOfKinName;
+	}
+	public void setNextOfKinName(String nextOfKinName) {
+		this.nextOfKinName = nextOfKinName;
+	}
+	
+	// setters and getters for the phone number of the next of kin
+	public int getNextOfKinPhoneNumber() {
+		return nextOfKinPhoneNumber;
+	}
+	public void setNextOfKinPhoneNumber(int nextOfKinPhoneNumber) {
+		this.nextOfKinPhoneNumber = nextOfKinPhoneNumber;
+	}
+
+	// setters and getters for medical conditions
+	public String getMedicalConditions(){
+		return medicalConditions;
+	}	
+	public void setMedicalConditions(String medicalConditions) {
+		this.medicalConditions = medicalConditions;		
+	}
+
+	// setters and getters for email
+	public void setEmail(String email) {
+		this.email = email;		
+	}
+	public String getEmail(){
+		return email;
+	}
+
+	// setters and getters for phone number
+	public int getPhoneNumber(){
+		return phoneNumber;
+	}
+	public void setPhoneNumber(int phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	//getters and setters for forename
@@ -70,15 +141,30 @@ public class Swimmer {
 		this.surname = surname;
 	}
 
-	//will I need it?
-	/*
-	public Date getDateOfBirth() {
+	// setters and getters for date of birth
+	public GregorianCalendar getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(GregorianCalendar dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
-	}*/
-
+	}
+	
+	// setters and getters for swimmer's age
+	public int getAge() {
+		return age;
+	}
+	@SuppressWarnings("deprecation")
+	public void setAge() {
+		// calculates today's date
+		GregorianCalendar todaysDate = new GregorianCalendar();
+		// calculate the current year
+		int currentYear = todaysDate.getTime().getYear();
+		// get swimmer's date of birth's year
+		int swimmersYearOfBirth = getDateOfBirth().getTime().getYear();
+		// calculate swimmer's age
+		int swimmerAge = currentYear - swimmersYearOfBirth;
+		this.age = swimmerAge;
+	}
 	
 	//getters and setters for gender
 	public Gender getGender(){
@@ -88,7 +174,7 @@ public class Swimmer {
 		Gender = gender;
 	}
 
-	//shouldnt SwimClub be a separate instansiable class?
+	// setter and getter for swim club
 	public String getSwimClubName() {
 		return swimClubName;
 	}
@@ -103,5 +189,22 @@ public class Swimmer {
 	public static void setStatus(Status status) {
 		Status = status;
 	}
-			
+
+	// toString()
+	@Override
+	public String toString() {
+		return "Swimmer's id number is: " + getSwimmerID()
+				+ ",\nswimmer's forename is: " + getForename()
+				+ ",\nswimmer's surname is: " + getSurname()
+				+ ",\nswimmer's date of birth is: " + getDateOfBirth().getTime()
+				+ ",\nswimmer's age is: " + getAge()
+				+ ",\nswimmer's phone number is: " + getPhoneNumber()
+				+ ",\nswimmer's email is: " + getEmail()
+				+ ",\nswimmer's medical conditions are: " + getMedicalConditions()
+				+ ",\nswimmer takes the following medication: " + getMedication()
+				+ ",\nswimmer's next of kin's name is: " + getNextOfKinName()
+				+ ",\nand their contact number is: " + getNextOfKinPhoneNumber()
+				+ ",\nswimmer swims for the following club: " + getSwimClubName() + ".";
+	}		
+
 }
