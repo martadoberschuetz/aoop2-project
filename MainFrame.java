@@ -1,4 +1,4 @@
-package project;
+package aoop2_project;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 
+
+
 //import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -15,9 +17,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-
-import project.Swimmer.Gender;
-import project.Swimmer.Status;
+import aoop2_project.Swimmer.Gender;
+import aoop2_project.Swimmer.Status;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
@@ -28,18 +29,15 @@ public class MainFrame extends JFrame{
 	JMenu competitionMenu;
 	JMenu adminMenu;
 	
-	ArrayList<Swimmer> arrayListOfSwimmers;
+	ArrayList<Swimmer> swimmerArrayList;
 	
-	//for testing purposes only:
-	public static void main(String[] abc){
-		
-		
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.setVisible(true);
-		
+	
+	// MainFrame constructor
+	public MainFrame(){
+		createMenu();
 	}
 	
-	public MainFrame(){
+	public void createMenu(){
 		
 		//setting the frame properties
 		setTitle("Swim Gala Manager");
@@ -51,7 +49,7 @@ public class MainFrame extends JFrame{
 		//setting the container properties
 		Container container;
 		container = getContentPane();
-		container.setLayout(new FlowLayout()); //anonymous sth....??
+		container.setLayout(new FlowLayout());
 		
 		//menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -68,45 +66,84 @@ public class MainFrame extends JFrame{
 		//menu and menu items
 		JMenuItem item;
 		
+		// Menu item Swimmer -> Register
 		item = new JMenuItem("Register");
 		swimmerMenu.add(item);
 		RegisterSwimmerHandler registerSwimmerHandler = new RegisterSwimmerHandler();
 		item.addActionListener(registerSwimmerHandler);
 		
+		// Menu item Swimmer -> Amend
 		item = new JMenuItem("Amend");
 		swimmerMenu.add(item);
+		AmendSwimmerHandler amendSwimmerHandler = new AmendSwimmerHandler();
+		item.addActionListener(amendSwimmerHandler);
+		
+		//Menu item Swimmer -> Deactivate
 		item = new JMenuItem("Deactivate");
 		swimmerMenu.add(item);
+		DeactivateSwimmerHandler deactivateSwimmerHandler = new DeactivateSwimmerHandler();
+		item.addActionListener(deactivateSwimmerHandler);
+		
+		// Menu item Swimmer -> View
 		item = new JMenuItem("View");
 		swimmerMenu.add(item);
 		ViewSwimmersHandler viewSwimmersHandler = new ViewSwimmersHandler();
 		item.addActionListener(viewSwimmersHandler);
 		
+		// menu item Gala -> Register
 		item = new JMenuItem("Register");
 		galaMenu.add(item);
+		RegisterGalaHandler registerGalaHandler = new RegisterGalaHandler();
+		item.addActionListener(registerGalaHandler);
+		
+		// Menu item Gala -> Amend
 		item = new JMenuItem("Amend");
 		galaMenu.add(item);
+		AmendGalaHandler amendGalaHandler = new AmendGalaHandler();
+		item.addActionListener(amendGalaHandler);
+		
+		// Menu item Gala -> Cancel
 		item = new JMenuItem("Cancel");
 		galaMenu.add(item);
+		CancelGalaHandler cancelGalaHandler = new CancelGalaHandler();
+		item.addActionListener(cancelGalaHandler);
+		
+		// Menu item Gala -> View
 		item = new JMenuItem("View");
 		galaMenu.add(item);
+		ViewGalaHandler viewGalaHandler = new ViewGalaHandler();
+		item.addActionListener(viewGalaHandler);
 		
+		// Menu item Competition -> View qulifying swimmers
 		item = new JMenuItem("View qualifying swimmers");
 		competitionMenu.add(item);
+		ViewQualifyingSwimmersHandler viewQualifyingSwimmersHandler = new ViewQualifyingSwimmersHandler();
+		item.addActionListener(viewQualifyingSwimmersHandler);
+		
+		// Menu item Competition -> Do I qualify?
 		item = new JMenuItem("Do I qualify?");
 		competitionMenu.add(item);
+		DoIQualifyHandler doIQulifyHandler = new DoIQualifyHandler();
+		item.addActionListener(doIQulifyHandler);
+		
+		// Menu item Competition -> Enter a gala
 		item = new JMenuItem("Enter a gala");
 		competitionMenu.add(item);
+		EnterAGalaHandler enterAGalaHandler = new EnterAGalaHandler();
+		item.addActionListener(enterAGalaHandler);
 		
+		// Menu item Admin -> Load
 		item = new JMenuItem("Load");
 		adminMenu.add(item);
+		LoadDataHandler loadDataHandler = new LoadDataHandler();
+		item.addActionListener(loadDataHandler);
+		
+		// Menu item Admin -> Save
 		item = new JMenuItem("Save");
 		adminMenu.add(item);
-		
-		arrayListOfSwimmers = new ArrayList<Swimmer>();
-		
+		SaveDataHandler saveDataHandler = new SaveDataHandler();
+		item.addActionListener(saveDataHandler);
 	}
-	
 	
 	class RegisterSwimmerHandler implements ActionListener{
 
@@ -185,25 +222,133 @@ public class MainFrame extends JFrame{
 											email, medicalConditions, medication, nextOfKinName, 
 											nextOfKinPhoneNumberAsNumber, swimClubName, statusOfTypeStatus);
 			
-			arrayListOfSwimmers.add(swimmer);
+			swimmerArrayList.add(swimmer);
 			
 			JOptionPane.showMessageDialog(null, swimmer.toString());
 			
 		}
 	}
 	
+	
+	
 	class ViewSwimmersHandler implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			for (Swimmer x: arrayListOfSwimmers){
+			for (Swimmer x: swimmerArrayList){
 				JOptionPane.showMessageDialog(null, x);
 				
 			}
-			
 		}
-	
 	}
 	
-}
+	class AmendSwimmerHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class DeactivateSwimmerHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class RegisterGalaHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
+	}
+	
+	class AmendGalaHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
+	}
+	
+	class CancelGalaHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
+	}
+	
+	class ViewGalaHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class ViewQualifyingSwimmersHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class DoIQualifyHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class EnterAGalaHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class LoadDataHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	class SaveDataHandler implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+}	

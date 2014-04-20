@@ -1,8 +1,8 @@
-package project;
+package aoop2_project;
 
 import java.util.Date;
 
-import project.Gala.TypeOfTiming;
+import aoop2_project.Gala.TypeOfTiming;
 
 public class TestWorldChampionships {
 

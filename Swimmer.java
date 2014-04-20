@@ -1,4 +1,4 @@
-package project;
+package aoop2_project;
 
 import java.util.GregorianCalendar;
 

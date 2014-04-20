@@ -1,4 +1,4 @@
-package project;
+package aoop2_project;
 
 public class GalaEntry {
 

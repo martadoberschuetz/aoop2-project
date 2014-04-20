@@ -1,9 +1,9 @@
-package project;
+package aoop2_project;
 
 import java.util.GregorianCalendar;
 
-import project.Swimmer.Gender;
-import project.Swimmer.Status;
+import aoop2_project.Swimmer.Gender;
+import aoop2_project.Swimmer.Status;
 
 public class TestSwimmer {
 

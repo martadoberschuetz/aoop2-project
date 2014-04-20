@@ -1,4 +1,4 @@
-package project;
+package aoop2_project;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ public class NationalGala extends Gala{
 	public NationalGala(Date galaDate, String galaName,
 			String galaOrganiserName, int galaOrganiserPhoneNumber,
 			String galaOrganiserEmail, String poolAddress, int durationInDays,
-			int poolLength, project.Gala.TypeOfTiming typeOfTyming, int payment) {
+			int poolLength, aoop2_project.Gala.TypeOfTiming typeOfTyming, int payment) {
 		super(galaDate, galaName, galaOrganiserName, galaOrganiserPhoneNumber,
 				galaOrganiserEmail, poolAddress, durationInDays, poolLength,
 				typeOfTyming, payment);
