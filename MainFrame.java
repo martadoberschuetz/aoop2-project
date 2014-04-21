@@ -29,9 +29,6 @@ public class MainFrame extends JFrame{
 	JMenu competitionMenu;
 	JMenu adminMenu;
 	
-	ArrayList<Swimmer> swimmerArrayList;
-	
-	
 	// MainFrame constructor
 	public MainFrame(){
 		createMenu();
@@ -150,81 +147,8 @@ public class MainFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			
-			// TODO:
-			// for future development:
-			// RegisterSwimmerFrame swimmerForm = new RegisterSwimmerFrame();
-			// swimmerForm.setVisible(true);
-			
-			// enter forename
-			String forename = JOptionPane.showInputDialog("Forename?");
-			
-			// enter surname
-			String surname = JOptionPane.showInputDialog("Surname?");
-			
-			// enter year in date of birth
-			String year = JOptionPane.showInputDialog("Date of birth?\nYear?");
-			int yearAsNumber = Integer.parseInt(year);
-			
-			// enter month in date of birth
-			String month = JOptionPane.showInputDialog("Date of birth?\nMonth?");
-			int monthAsNumber = Integer.parseInt(month);
-			
-			// enter day in date of birth
-			String day = JOptionPane.showInputDialog("Date of birth?\nDay?");
-			int dayAsNumber = Integer.parseInt(day);
-			
-			// date of birth
-			GregorianCalendar dateOfBirth = new GregorianCalendar(yearAsNumber, monthAsNumber, dayAsNumber);
-					
-			// gender
-			// TODO: combo box in future implementation
-			String gender = JOptionPane.showInputDialog("Gender? Male or female?");
-			Gender genderOfTypeGender = null;
-			if (gender.toLowerCase().equals("male")){
-				genderOfTypeGender = Gender.male;
-			}else if(gender.toLowerCase().equals("female")){
-				genderOfTypeGender = Gender.female;
-			} 
-			
-			// phone number
-			String phoneNumber = JOptionPane.showInputDialog("Phone number?");
-			int phoneNumberAsNumber = Integer.parseInt(phoneNumber);
-			
-			// email
-			String email = JOptionPane.showInputDialog("Email?");
-			
-			// medical conditions
-			String medicalConditions = JOptionPane.showInputDialog("Medical conditions?");
-			
-			// medication
-			String medication = JOptionPane.showInputDialog("Medication?");
-			
-			// name of the next of kin
-			String nextOfKinName = JOptionPane.showInputDialog("Name of the next of kin?");
-			
-			// phone number for the next of kin
-			String nextOfKinPhoneNumber = JOptionPane.showInputDialog("Phone number of the next of kin?");
-			int nextOfKinPhoneNumberAsNumber = Integer.parseInt(nextOfKinPhoneNumber);
-			
-			// swim club name
-			String swimClubName = JOptionPane.showInputDialog("Swim Club name?");
-			
-			// status
-			String status = JOptionPane.showInputDialog("Status? Active or Inactive?");
-			Status statusOfTypeStatus = null;
-			if (status.toLowerCase().equals("active")){
-				statusOfTypeStatus = Status.active;
-			}else if(status.toLowerCase().equals("inactive")){
-				statusOfTypeStatus = Status.inactive;
-			} 
-			
-			Swimmer swimmer = new Swimmer(forename, surname, dateOfBirth, genderOfTypeGender, phoneNumberAsNumber, 
-											email, medicalConditions, medication, nextOfKinName, 
-											nextOfKinPhoneNumberAsNumber, swimClubName, statusOfTypeStatus);
-			
-			swimmerArrayList.add(swimmer);
-			
-			JOptionPane.showMessageDialog(null, swimmer.toString());
+			RegisterSwimmerFrame swimmerRegistrationFrame = new RegisterSwimmerFrame();
+			swimmerRegistrationFrame.setVisible(true);
 			
 		}
 	}
@@ -236,10 +160,7 @@ public class MainFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			for (Swimmer x: swimmerArrayList){
-				JOptionPane.showMessageDialog(null, x);
-				
-			}
+			
 		}
 	}
 	

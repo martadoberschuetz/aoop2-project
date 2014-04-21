@@ -4,8 +4,13 @@ package aoop2_project;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+
 import javax.swing.*;
+
 import com.toedter.calendar.JDateChooser;
+
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
 
@@ -40,13 +45,14 @@ public class RegisterSwimmerFrame extends JFrame{
 	private JComboBox<Status> statusComboBox;
 	private JTextField phoneNumberTextField;
 	private JTextField emailTextField;
-	private JTextField medicalConditionsTextField;
-	private JTextField medicationTextField;
+	private JTextArea medicalConditionsTextArea;
+	private JTextArea medicationTextArea;
 	private JTextField nextOfKinNameTextField;
 	private JTextField nextOfKinPhoneNumberTextField;
 	private JComboBox<String> swimClubNameComboBox;
+	private JComboBox<String> swimmerLevelComboBox;
 	
-	private JButton submitButton;
+	private JButton registerButton;
 	private JButton cancelButton;
 	
 	private JPanel contentPanel;	
@@ -63,8 +69,15 @@ public class RegisterSwimmerFrame extends JFrame{
 	private Status[] status = {Status.active, Status.inactive};
 	private String[] swimClubs = {"Killarney Swimming Club", "Kingdom Masters Swimming Club", "AerLingus Swimming Club",
 									"Cork Masters", "Dolphin Swimming Club", "Limerick Masters", "NAC"};
+	private String[] swimmerLevel = {"Masters"};
 	
 	public RegisterSwimmerFrame(){
+		
+		createRegisterSwimmerFrame();
+		
+	}
+	
+	public void createRegisterSwimmerFrame(){
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(null);
@@ -157,144 +170,176 @@ public class RegisterSwimmerFrame extends JFrame{
 		phoneNumberTextField.setFont(fontTextField);
 		contactInformationPanel.add(phoneNumberTextField);
 		
+		// panel for swimmer's health status
+		JPanel healthInformationPanel = new JPanel();
+		healthInformationPanel.setBounds(380, 60, 350, 90);
+		healthInformationPanel.setLayout(null);
+		healthInformationPanel.setFont(fontLabel);
+		healthInformationPanel.setBorder(BorderFactory.createTitledBorder("Health status"));
+		contentPanel.add(healthInformationPanel);
+		
+		medicalConditionsLabel = new JLabel("Medical conditions:");
+		medicalConditionsLabel.setBounds(10, 20, 120, 25);
+		medicalConditionsLabel.setFont(fontLabel);
+		healthInformationPanel.add(medicalConditionsLabel);
+				
+		medicalConditionsTextArea = new JTextArea(2, 20);
+		medicalConditionsTextArea.setBounds(140, 20, 190, 22);
+		medicalConditionsTextArea.setFont(fontTextField);
+		healthInformationPanel.add(medicalConditionsTextArea);
+		
+		medicationsLabel = new JLabel("Medication:");
+		medicationsLabel.setBounds(10, 50, 75, 25);
+		medicationsLabel.setFont(fontLabel);
+		healthInformationPanel.add(medicationsLabel);
+		
+		medicationTextArea = new JTextArea(4, 20);
+		medicationTextArea.setBounds(140, 50, 190, 22);
+		medicationTextArea.setFont(fontTextField);
+		healthInformationPanel.add(medicationTextArea);
+		
+		// panel for swimmer's next of kin information
+		JPanel nextOfKinInformationPanel = new JPanel();
+		nextOfKinInformationPanel.setBounds(380, 160, 350, 90);
+		nextOfKinInformationPanel.setLayout(null);
+		nextOfKinInformationPanel.setFont(fontLabel);
+		nextOfKinInformationPanel.setBorder(BorderFactory.createTitledBorder("Next of kin"));
+		contentPanel.add(nextOfKinInformationPanel);
+		
+		nextOfKinNameLabel = new JLabel("Name:");
+		nextOfKinNameLabel.setBounds(10, 20, 120, 25);
+		nextOfKinNameLabel.setFont(fontLabel);
+		nextOfKinInformationPanel.add(nextOfKinNameLabel);
+				
+		nextOfKinNameTextField = new JTextField();
+		nextOfKinNameTextField.setBounds(140, 20, 190, 22);
+		nextOfKinNameTextField.setFont(fontTextField);
+		nextOfKinInformationPanel.add(nextOfKinNameTextField);
+		
+		nextOfKinPhoneNumberLabel = new JLabel("Phone Number:");
+		nextOfKinPhoneNumberLabel.setBounds(10, 50, 100, 25);
+		nextOfKinPhoneNumberLabel.setFont(fontLabel);
+		nextOfKinInformationPanel.add(nextOfKinPhoneNumberLabel);
+		
+		nextOfKinPhoneNumberTextField = new JTextField();
+		nextOfKinPhoneNumberTextField.setBounds(140, 50, 190, 22);
+		nextOfKinPhoneNumberTextField.setFont(fontTextField);
+		nextOfKinInformationPanel.add(nextOfKinPhoneNumberTextField);
 		
 		
-		/*
+		// panel for swimmer's swim club information
+		JPanel swimClubInformationPanel = new JPanel();
+		swimClubInformationPanel.setBounds(380, 260, 350, 120);
+		swimClubInformationPanel.setLayout(null);
+		swimClubInformationPanel.setFont(fontLabel);
+		swimClubInformationPanel.setBorder(BorderFactory.createTitledBorder("Swimming Club"));
+		contentPanel.add(swimClubInformationPanel);
+		
+		swimClubNameLabel = new JLabel("Swimming Club:");
+		swimClubNameLabel.setBounds(10, 20, 120, 25);
+		swimClubNameLabel.setFont(fontLabel);
+		swimClubInformationPanel.add(swimClubNameLabel);
+		
+		swimClubNameComboBox = new JComboBox<String>(swimClubs);
+		swimClubNameComboBox.setBounds(140, 20, 200, 22);
+		swimClubNameComboBox.setFont(fontTextField);
+		swimClubInformationPanel.add(swimClubNameComboBox);
+		
 		statusLabel = new JLabel("Status:");
-		statusLabel.setBounds(20, 20, 75, 25);
+		statusLabel.setBounds(10, 50, 75, 25);
 		statusLabel.setFont(fontLabel);
-		contactInformationPanel.add(statusLabel);
+		swimClubInformationPanel.add(statusLabel);
 		
 		statusComboBox = new JComboBox<Status>(status);
-		statusComboBox.setBounds(120, 20, 200, 22);
+		statusComboBox.setBounds(140, 50, 200, 22);
 		statusComboBox.setFont(fontTextField);
-		contactInformationPanel.add(statusComboBox);*/
+		swimClubInformationPanel.add(statusComboBox);
 		
+		swimmerLevelLabel = new JLabel("Level:");
+		swimmerLevelLabel.setBounds(10, 80, 75, 25);
+		swimmerLevelLabel.setFont(fontLabel);
+		swimClubInformationPanel.add(swimmerLevelLabel);
 		
+		swimmerLevelComboBox = new JComboBox<String>(swimmerLevel);
+		swimmerLevelComboBox.setBounds(140, 80, 200, 22);
+		swimmerLevelComboBox.setFont(fontTextField);
+		swimClubInformationPanel.add(swimmerLevelComboBox);
 		
-		/*
-			
-		// panel address
-		JPanel panelAddress = new JPanel();
-		panelAddress.setBounds(10, 190, 350, 120);
-		panelAddress.setLayout(null);
-		panelAddress.setFont(fontLabel);
-		panelAddress.setBorder(BorderFactory.createTitledBorder("Address"));
-		contentPanel.add(panelAddress);
-		
-		streetLabel = new JLabel("Street:");
-		streetLabel.setBounds(10, 20, 75, 25);
-		streetLabel.setFont(fontLabel);
-		panelAddress.add(streetLabel);
-		
-		streetField = new JTextField();
-		streetField.setBounds(90, 20, 200, 22);
-		streetField.setFont(fontTextField);
-		panelAddress.add(streetField);
-		
-		townLabel = new JLabel("Town:");
-		townLabel.setBounds(10, 50, 75, 25);
-		townLabel.setFont(fontLabel);
-		panelAddress.add(townLabel);
-		
-		townField = new JTextField();
-		townField.setBounds(90, 50, 200, 22);
-		townField.setFont(fontTextField);
-		panelAddress.add(townField);
-		
-		countyLabel = new JLabel("County:");
-		countyLabel.setBounds(10, 80, 75, 25);
-		countyLabel.setFont(fontLabel);
-		panelAddress.add(countyLabel);
-		
-		countyField = new JTextField();
-		countyField.setBounds(90, 80, 200, 22);
-		countyField.setFont(fontTextField);
-		panelAddress.add(countyField);
-				
-		
-		// panel other details
-		JPanel panelOtherDetails = new JPanel();
-		panelOtherDetails.setBounds(10, 315, 350, 180);
-		panelOtherDetails.setLayout(null);
-		panelOtherDetails.setFont(fontLabel);
-		panelOtherDetails.setBorder(BorderFactory.createTitledBorder("Other Details"));
-		contentPanel.add(panelOtherDetails);		
-		
-		dobLabel = new JLabel("Date of birth:");
-		dobLabel.setBounds(10, 20, 100, 25);
-		dobLabel.setFont(fontLabel);
-		panelOtherDetails.add(dobLabel);
-		
-		dateChooser  = new JDateChooser();
-		dateChooser.setBounds(100, 20, 150, 22);
-		panelOtherDetails.add(dateChooser);
-		
-		phoneLabel = new JLabel("Phone:");
-		phoneLabel.setBounds(10, 50, 75, 25);
-		phoneLabel.setFont(fontLabel);
-		panelOtherDetails.add(phoneLabel);
-		
-		phoneField = new JTextField();
-		phoneField.setBounds(90, 50, 200, 22);
-		phoneField.setFont(fontTextField);
-		panelOtherDetails.add(phoneField);
-		
-		emailLabel = new JLabel("Email:");
-		emailLabel.setBounds(10, 80, 75, 25);
-		emailLabel.setFont(fontLabel);
-		panelOtherDetails.add(emailLabel);
-		
-		emailField = new JTextField();
-		emailField.setBounds(90, 80, 200, 22);
-		emailField.setFont(fontTextField);
-		panelOtherDetails.add(emailField);
-		
-		//password
-		passwordLabel = new JLabel("Password:");
-		passwordLabel.setBounds(10, 110, 75, 25);
-		passwordLabel.setFont(fontLabel);
-		panelOtherDetails.add(passwordLabel);
-		
-		passwordField1 = new JPasswordField();
-		passwordField1.setBounds(90, 110, 200, 22);
-		passwordField1.setFont(fontTextField);
-		panelOtherDetails.add(passwordField1);
-		
-		//password confirmation
-		passwordLabel = new JLabel("Password:");
-		passwordLabel.setBounds(10, 140, 75, 25);
-		passwordLabel.setFont(fontLabel);
-		panelOtherDetails.add(passwordLabel);
-		
-		passwordField2 = new JPasswordField();
-		passwordField2.setBounds(90, 140, 200, 22);
-		passwordField2.setFont(fontTextField);
-		panelOtherDetails.add(passwordField2);
 		
 		// buttons
-		submitButton = new JButton("Submit Details");
-		submitButton.setBounds(50, 510, 120, 30);
-		submitButton.setFont(fontButton);
-		submitButton.addActionListener(new ButtonHandler());
-		contentPanel.add(submitButton);
+		registerButton = new JButton("Register");
+		registerButton.setBounds(40, 350, 100, 30);
+		registerButton.setFont(fontButton);
+		contentPanel.add(registerButton);
+		RegisterSwimmerButtonHandler registerSwimmerButtonHandler = new RegisterSwimmerButtonHandler();
+		registerButton.addActionListener(registerSwimmerButtonHandler);
 		
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(200, 510, 120, 30);
+		cancelButton.setBounds(160, 350, 100, 30);
 		cancelButton.setFont(fontButton);
-		cancelButton.addActionListener(new ButtonHandler());
 		contentPanel.add(cancelButton);
-		
-		*/
-		
+		CancelRegistrationButtonHandler cancelRegistartionButtonHandler = new CancelRegistrationButtonHandler();
+		cancelButton.addActionListener(cancelRegistartionButtonHandler);
 	}
 	
+	// for testing purposes only
 	public static void main(String[] abc){
 		
 		RegisterSwimmerFrame newFrame = new RegisterSwimmerFrame();
 		newFrame.setVisible(true);
+	}
+	
+	
+	class RegisterSwimmerButtonHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+
+			
+			String forename = forenameTextField.getText();
+			String surname = surnameTextField.getText();
+			String dateOfBirth = dateOfBirthChosen.toString();
+			String gender = genderComboBox.getSelectedItem().toString();
+			String phoneNumber = phoneNumberTextField.getText();
+			String email = emailTextField.getText();
+			String medicalConditions = medicalConditionsTextArea.getText();
+			String medication = medicalConditionsTextArea.getText();
+			String nextOfKinName = nextOfKinNameTextField.getText();
+			String nextOfKinPhoneNumber = nextOfKinNameTextField.getText();
+			String swimClub = swimClubNameComboBox.getSelectedItem().toString();
+			String status = statusComboBox.getSelectedItem().toString();
+			String level = swimmerLevelComboBox.getSelectedItem().toString();
+					
+			try{
+				
+				
+				
+				
+				
+				
+	
+			}catch(Exception someFieldIsEmptyException){
+				
+				
+			}//catch(Exception someOtherException){
+				
+				
+			//}
+			
+			
+		}
+	}
+	
+	class CancelRegistrationButtonHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 		
 	}
 	
 	
-}
+}// end class
