@@ -3,14 +3,10 @@ package aoop2_project;
 //import GUI and event handling packages
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-
+import java.util.GregorianCalendar;
 import javax.swing.*;
-
 import com.toedter.calendar.JDateChooser;
-
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
 
@@ -66,10 +62,11 @@ public class RegisterSwimmerFrame extends JFrame{
 	private Font fontChecks = new Font("Verdana", Font.PLAIN,13);
 	
 	private Gender[] genders = {Gender.female, Gender.male};
-	private Status[] status = {Status.active, Status.inactive};
+	private Status[] statuses = {Status.active, Status.inactive};
 	private String[] swimClubs = {"Killarney Swimming Club", "Kingdom Masters Swimming Club", "AerLingus Swimming Club",
 									"Cork Masters", "Dolphin Swimming Club", "Limerick Masters", "NAC"};
 	private String[] swimmerLevel = {"Masters"};
+	
 	
 	public RegisterSwimmerFrame(){
 		
@@ -165,10 +162,10 @@ public class RegisterSwimmerFrame extends JFrame{
 		emailLabel.setFont(fontLabel);
 		contactInformationPanel.add(emailLabel);
 		
-		phoneNumberTextField = new JTextField();
-		phoneNumberTextField.setBounds(120, 50, 200, 22);
-		phoneNumberTextField.setFont(fontTextField);
-		contactInformationPanel.add(phoneNumberTextField);
+		emailTextField = new JTextField();
+		emailTextField.setBounds(120, 50, 200, 22);
+		emailTextField.setFont(fontTextField);
+		contactInformationPanel.add(emailTextField);
 		
 		// panel for swimmer's health status
 		JPanel healthInformationPanel = new JPanel();
@@ -250,7 +247,7 @@ public class RegisterSwimmerFrame extends JFrame{
 		statusLabel.setFont(fontLabel);
 		swimClubInformationPanel.add(statusLabel);
 		
-		statusComboBox = new JComboBox<Status>(status);
+		statusComboBox = new JComboBox<Status>(statuses);
 		statusComboBox.setBounds(140, 50, 200, 22);
 		statusComboBox.setFont(fontTextField);
 		swimClubInformationPanel.add(statusComboBox);
@@ -280,6 +277,7 @@ public class RegisterSwimmerFrame extends JFrame{
 		contentPanel.add(cancelButton);
 		CancelRegistrationButtonHandler cancelRegistartionButtonHandler = new CancelRegistrationButtonHandler();
 		cancelButton.addActionListener(cancelRegistartionButtonHandler);
+		
 	}
 	
 	// for testing purposes only
@@ -295,41 +293,64 @@ public class RegisterSwimmerFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			
+			// get text from all the field in the form
 			String forename = forenameTextField.getText();
 			String surname = surnameTextField.getText();
-			String dateOfBirth = dateOfBirthChosen.toString();
+			Date dateOfBirth = dateOfBirthChosen.getDate();		
 			String gender = genderComboBox.getSelectedItem().toString();
 			String phoneNumber = phoneNumberTextField.getText();
+			int phoneNumberAsInteger = Integer.parseInt(phoneNumber);
 			String email = emailTextField.getText();
 			String medicalConditions = medicalConditionsTextArea.getText();
 			String medication = medicalConditionsTextArea.getText();
 			String nextOfKinName = nextOfKinNameTextField.getText();
 			String nextOfKinPhoneNumber = nextOfKinNameTextField.getText();
+			int nextOfKinPhoneNumberAsInteger = Integer.parseInt(nextOfKinPhoneNumber);
 			String swimClub = swimClubNameComboBox.getSelectedItem().toString();
 			String status = statusComboBox.getSelectedItem().toString();
 			String level = swimmerLevelComboBox.getSelectedItem().toString();
 					
 			try{
 				
+				if (forename.isEmpty() || surname.isEmpty() || dateOfBirth.toString().isEmpty() || gender.isEmpty()
+					|| phoneNumber.isEmpty() || email.isEmpty() || medicalConditions.isEmpty()
+					|| medication.isEmpty() || nextOfKinName.isEmpty() || nextOfKinPhoneNumber.isEmpty()
+					|| swimClub.isEmpty() || status.isEmpty() || level.isEmpty()){
+					
+					throw new SomeFieldIsEmptyException();
+				}
 				
+		
+				// format date from the input field
+				GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+				cal.setTime(dateOfBirth);
 				
+				Swimmer newSwimmer = new Swimmer(forename, surname, cal, Gender.valueOf(gender), phoneNumberAsInteger,
+												 email, medicalConditions, medication, nextOfKinName,
+												 nextOfKinPhoneNumberAsInteger, swimClub, Status.valueOf(status), level);
 				
+			
+				PerformDatabaseOperations addNewSwimmerOperation = new PerformDatabaseOperations();
+				addNewSwimmerOperation.addSwimmerIntoTableSwimmers(newSwimmer);
 				
+						
+			}catch(Exception SomeFieldIsEmptyException){
 				
-	
-			}catch(Exception someFieldIsEmptyException){
+				JOptionPane.showMessageDialog(RegisterSwimmerFrame.this, "One of the fields is empty.");
 				
-				
-			}//catch(Exception someOtherException){
-				
-				
-			//}
+			}
 			
 			
 		}
 	}
 	
+	private class SomeFieldIsEmptyException extends Exception{
+	
+		//
+
+	}
+	
+
 	class CancelRegistrationButtonHandler implements ActionListener{
 
 		@Override

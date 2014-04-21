@@ -23,6 +23,7 @@ public class Swimmer {
 	private String nextOfKinName;
 	private int nextOfKinPhoneNumber;
 	private String swimClubName;
+	private String level;
 	
 	// 0-argument constructor
 	@SuppressWarnings("static-access")
@@ -43,6 +44,7 @@ public class Swimmer {
 		setNextOfKinPhoneNumber(00000000);
 		setSwimClubName("unknown");
 		Swimmer.setStatus(Status.inactive);
+		setLevel("unknown");
 	}
 		
 	// full-argument constructor
@@ -50,7 +52,7 @@ public class Swimmer {
 			GregorianCalendar dateOfBirth, Gender gender, int phoneNumber, String email,
 			String medicalConditions, String medication,
 			String nextOfKinName, int nextOfKinPhoneNumber,
-			String swimClubName, Status status) {
+			String swimClubName, Status status, String level) {
 		
 		id++;
 		setSwimmerID(id);
@@ -67,6 +69,7 @@ public class Swimmer {
 		setNextOfKinPhoneNumber(nextOfKinPhoneNumber);
 		setSwimClubName(swimClubName);
 		Swimmer.setStatus(status);
+		setLevel(level);
 	}
 
 	//getters and setters for id
@@ -188,6 +191,14 @@ public class Swimmer {
 	}
 	public static void setStatus(Status status) {
 		Status = status;
+	}
+	
+	//getter and setter for level
+	public String getLevel(){
+		return level;
+	}
+	public void setLevel(String level){
+		this.level = level;
 	}
 
 	// toString()
