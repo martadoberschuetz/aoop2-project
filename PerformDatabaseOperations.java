@@ -3,9 +3,16 @@ package aoop2_project;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import javax.swing.JOptionPane;
+
+
+
 
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
@@ -19,12 +26,14 @@ import aoop2_project.Swimmer.Status;
 
 public class PerformDatabaseOperations {
 
-	public PerformDatabaseOperations(){
-		dropTableSwimmers();
-		createTableSwimmers();
-		populateTableSwimmers();
-		viewSwimmers();
-	}
+	static String surnameEnteredByCustomer;
+	
+	//public PerformDatabaseOperations(){
+	//	dropTableSwimmers();
+	//	createTableSwimmers();
+	//	populateTableSwimmers();
+	//	viewSwimmers();
+	//}
 	
 	public void dropTableSwimmers(){
 		
@@ -207,10 +216,10 @@ public class PerformDatabaseOperations {
 	
 	// for testing purposes only:
 	
-	public static void main(String[] abc){
+	//public static void main(String[] abc){
 		
-		new PerformDatabaseOperations();
-	}
+	//	new PerformDatabaseOperations();
+	///}
 	
 	public static void viewSwimmers(){
 		
@@ -268,7 +277,155 @@ public class PerformDatabaseOperations {
 			System.out.println(e.getClass().getName() + ": " +e.getMessage() );
 			//System.exit(0);
 		}
-		System.out.println("Operation done successfully");
+		System.out.println("The above is a list of all swimmers in the database.");
+		
+	}
+	
+	
+	public  void retrieveSwimmerFromDatabase()	{
+		
+		// ask for the surname
+		surnameEnteredByCustomer = JOptionPane.showInputDialog(null, "Swimmer's surname: ");
+		
+		Connection connection = null;
+		Statement scriptStatement = null;
+		
+				
+		try {
+			// connect to database
+			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager.getConnection("jdbc:sqlite:Swimmers.db");
+			System.out.println("Database opened.");
+			
+			// retrieve specified swimmer's details
+			// swimmer is specified by their surname
+			scriptStatement = connection.createStatement();
+			String retrieveSwimmerFromDatabase = "SELECT * FROM SWIMMERS WHERE SURNAME='" + surnameEnteredByCustomer + "'; ";
+			ResultSet result = scriptStatement.executeQuery(retrieveSwimmerFromDatabase);
+			
+				
+			while (result.next()){
+				int ID = result.getInt("ID");
+				String forename = result.getString("FORENAME");
+				String surname = result.getString("SURNAME");
+				String dateOfBirth = result.getString("DATE_OF_BIRTH");
+				String gender = result.getString("GENDER");
+				String phoneNumber = result.getString("PHONE_NUMBER");
+				String email = result.getString("EMAIL");
+				String medicalConditions = result.getString("MEDICAL_CONDITIONS");
+				String medication = result.getString("MEDICATION");
+				String nextOfKinName = result.getString("NEXT_OF_KIN_NAME");
+				String nextOfKinPhoneNumber = result.getString("NEXT_OF_KIN_PHONE_NUMBER");
+				String swimClub = result.getString("SWIM_CLUB");
+				String status = result.getString("STATUS");
+				String level = result.getString("LEVEL");
+				
+				// parse string to date
+				Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
+				 
+				// insert the data pulled from db into the text fields
+				AmendSwimmerFrame.forenameTextField.setText(forename);
+				AmendSwimmerFrame.surnameTextField.setText(surname);
+				AmendSwimmerFrame.dateOfBirthChosen.setDate(date);		
+				AmendSwimmerFrame.genderComboBox.setSelectedItem(gender);
+				AmendSwimmerFrame.phoneNumberTextField.setText(phoneNumber);
+				AmendSwimmerFrame.emailTextField.setText(email);
+				AmendSwimmerFrame.medicalConditionsTextArea.setText(medicalConditions);
+				AmendSwimmerFrame.medicalConditionsTextArea.setText(medication);
+				AmendSwimmerFrame.nextOfKinNameTextField.setText(nextOfKinName);
+				AmendSwimmerFrame.nextOfKinPhoneNumberTextField.setText(nextOfKinPhoneNumber);
+				AmendSwimmerFrame.swimClubNameComboBox.setSelectedItem(swimClub);
+				AmendSwimmerFrame.statusComboBox.setSelectedItem(status);
+				AmendSwimmerFrame.swimmerLevelComboBox.setSelectedItem(level);
+				
+				
+				JOptionPane.showMessageDialog(null, "Please amend Swimmer's details.");
+				
+			}
+				
+			System.out.println("bla");
+			
+			result.close();
+			scriptStatement.close();
+			connection.close();
+
+					
+		} catch (Exception e) {
+			System.out.println(e.getClass().getName() + ": " +e.getMessage() );
+		
+		}
+		
+		
+	}
+	
+	
+	public void updateSwimmerDetails() throws ClassNotFoundException{
+		
+		
+		// get text from all the fields in the form
+		String forename = AmendSwimmerFrame.forenameTextField.getText();
+		String surname = AmendSwimmerFrame.surnameTextField.getText();
+		Date dateOfBirth = AmendSwimmerFrame.dateOfBirthChosen.getDate();		
+		String gender = AmendSwimmerFrame.genderComboBox.getSelectedItem().toString();
+		String phoneNumber = AmendSwimmerFrame.phoneNumberTextField.getText();
+		int phoneNumberAsInteger = Integer.parseInt(phoneNumber);
+		String email = AmendSwimmerFrame.emailTextField.getText();
+		String medicalConditions = AmendSwimmerFrame.medicalConditionsTextArea.getText();
+		String medication = AmendSwimmerFrame.medicalConditionsTextArea.getText();
+		String nextOfKinName = AmendSwimmerFrame.nextOfKinNameTextField.getText();
+		String nextOfKinPhoneNumber = AmendSwimmerFrame.nextOfKinPhoneNumberTextField.getText();
+		int nextOfKinPhoneNumberAsInteger = Integer.parseInt(nextOfKinPhoneNumber);
+		String swimClub = AmendSwimmerFrame.swimClubNameComboBox.getSelectedItem().toString();
+		String status = AmendSwimmerFrame.statusComboBox.getSelectedItem().toString();
+		String level = AmendSwimmerFrame.swimmerLevelComboBox.getSelectedItem().toString();
+		
+				
+			// create a connection
+			Connection connection = null;
+			Statement scriptStatement = null;
+
+			
+			try {
+				
+				// connect to database
+				Class.forName("org.sqlite.JDBC");
+				connection = DriverManager.getConnection("jdbc:sqlite:Swimmers.db");
+				System.out.println("Opened database Successfully");
+				
+				scriptStatement = connection.createStatement();
+				String dob = (new SimpleDateFormat("yyyy-MM-dd").format(dateOfBirth));
+						
+				String updateCustomerDetails = "UPDATE SWIMMERS SET "
+												+ "FORENAME='" + forename + "', "
+												+ "SURNAME='" + surname + "', "
+												+ "DATE_OF_BIRTH='" + dateOfBirth + "', "
+												+ "GENDER='" + gender + "', "
+												+ "PHONE_NUMBER='" + phoneNumber + "', "
+												+ "EMAIL='" + email + "', "
+												+ "MEDICAL_CONDITIONS='" + medicalConditions + "', "
+												+ "MEDICATION='" + medication + "' "
+												+ "NEXT_OF_KIN_NAME='" + nextOfKinName + "' "
+												+ "NEXT_OF_KIN_PHONE_NUMBER='" + nextOfKinPhoneNumber + "' "
+												+ "SWIM_CLUB='" + swimClub + "' "
+												+ "STATUS='" + status + "' "
+												+ "LEVEL='" + level + "' "
+												+ "WHERE EMAIL LIKE '" + surnameEnteredByCustomer + "';";
+				
+						
+						scriptStatement.executeUpdate(updateCustomerDetails);
+						scriptStatement.close();
+						connection.close();
+						
+						System.out.println("Records updated successfully");
+						
+						JOptionPane.showMessageDialog(null, "Thank you for updating your details " + surnameEnteredByCustomer);
+						
+					
+						
+					}catch(SQLException e){
+						System.out.println(e.getClass().getName() + ": " +e.getMessage() );
+					}
+		
 		
 	}
 	

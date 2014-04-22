@@ -38,8 +38,8 @@ public class MainFrame extends JFrame{
 		
 		//setting the frame properties
 		setTitle("Swim Gala Manager");
-		setSize(500,300);
 		setLocation(50, 50);
+		setSize(750, 450);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -168,7 +168,11 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			AmendSwimmerFrame newFrame = new AmendSwimmerFrame();
+			newFrame.setVisible(true);
+			
+			
 			
 		}
 	}

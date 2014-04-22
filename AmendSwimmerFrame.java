@@ -5,12 +5,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import javax.swing.*;
+
 import com.toedter.calendar.JDateChooser;
+
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
 
-public class RegisterSwimmerFrame extends JFrame{
+public class AmendSwimmerFrame extends JFrame{
 	
 	// all labels
 	private JLabel enterDetailsLabel;
@@ -34,19 +37,19 @@ public class RegisterSwimmerFrame extends JFrame{
 	
 	
 	// textfields and comboboxes
-	private JTextField forenameTextField;
-	private JTextField surnameTextField;
-	private JDateChooser dateOfBirthChosen;
-	private JComboBox<Gender> genderComboBox;
-	private JComboBox<Status> statusComboBox;
-	private JTextField phoneNumberTextField;
-	private JTextField emailTextField;
-	private JTextArea medicalConditionsTextArea;
-	private JTextArea medicationTextArea;
-	private JTextField nextOfKinNameTextField;
-	private JTextField nextOfKinPhoneNumberTextField;
-	private JComboBox<String> swimClubNameComboBox;
-	private JComboBox<String> swimmerLevelComboBox;
+	static JTextField forenameTextField;
+	static JTextField surnameTextField;
+	static JDateChooser dateOfBirthChosen;
+	static JComboBox<Gender> genderComboBox;
+	static JComboBox<Status> statusComboBox;
+	static JTextField phoneNumberTextField;
+	static JTextField emailTextField;
+	static JTextArea medicalConditionsTextArea;
+	static JTextArea medicationTextArea;
+	static JTextField nextOfKinNameTextField;
+	static JTextField nextOfKinPhoneNumberTextField;
+	static JComboBox<String> swimClubNameComboBox;
+	static JComboBox<String> swimmerLevelComboBox;
 	
 	private JButton registerButton;
 	private JButton cancelButton;
@@ -68,13 +71,15 @@ public class RegisterSwimmerFrame extends JFrame{
 	private String[] swimmerLevel = {"Masters"};
 	
 	
-	public RegisterSwimmerFrame(){
+	public AmendSwimmerFrame(){
 		
-		createRegisterSwimmerFrame();
+		createAmendSwimmerFrame();
+		PerformDatabaseOperations loadSwimmerDetails = new PerformDatabaseOperations();
+		loadSwimmerDetails.retrieveSwimmerFromDatabase();
 		
 	}
 	
-	public void createRegisterSwimmerFrame(){
+	public void createAmendSwimmerFrame(){
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(null);
@@ -82,11 +87,11 @@ public class RegisterSwimmerFrame extends JFrame{
 		
 		setLocation(50, 50);
 		setSize(750, 450);
-		setTitle("Swimmer Registration");
+		setTitle("Amend swimmer's details");
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		enterDetailsLabel = new JLabel("Please enter Swimmer's details");
+		enterDetailsLabel = new JLabel("Please amend Swimmer's details");
 		enterDetailsLabel.setBounds(10, 10, 400, 25);
 		enterDetailsLabel.setFont(fontSubHeading);
 		contentPanel.add(enterDetailsLabel);
@@ -262,14 +267,13 @@ public class RegisterSwimmerFrame extends JFrame{
 		swimmerLevelComboBox.setFont(fontTextField);
 		swimClubInformationPanel.add(swimmerLevelComboBox);
 		
-		
 		// buttons
-		registerButton = new JButton("Register");
+		registerButton = new JButton("Amend");
 		registerButton.setBounds(40, 350, 100, 30);
 		registerButton.setFont(fontButton);
 		contentPanel.add(registerButton);
-		RegisterSwimmerButtonHandler registerSwimmerButtonHandler = new RegisterSwimmerButtonHandler();
-		registerButton.addActionListener(registerSwimmerButtonHandler);
+		AmendSwimmerButtonHandler amendSwimmerButtonHandler = new AmendSwimmerButtonHandler();
+		registerButton.addActionListener(amendSwimmerButtonHandler);
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(160, 350, 100, 30);
@@ -281,70 +285,26 @@ public class RegisterSwimmerFrame extends JFrame{
 	}
 	
 	// for testing purposes only
-	public static void main(String[] abc){
+	//public static void main(String[] abc){
 		
-		RegisterSwimmerFrame newFrame = new RegisterSwimmerFrame();
-		newFrame.setVisible(true);
-	}
+	//	AmendSwimmerFrame newFrame = new AmendSwimmerFrame();
+	//	newFrame.setVisible(true);
+	//}
 	
 	
-	class RegisterSwimmerButtonHandler implements ActionListener{
+	class AmendSwimmerButtonHandler implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			// get text from all the field in the form
-			String forename = forenameTextField.getText();
-			String surname = surnameTextField.getText();
-			Date dateOfBirth = dateOfBirthChosen.getDate();		
-			String gender = genderComboBox.getSelectedItem().toString();
-			String phoneNumber = phoneNumberTextField.getText();
-			int phoneNumberAsInteger = Integer.parseInt(phoneNumber);
-			String email = emailTextField.getText();
-			String medicalConditions = medicalConditionsTextArea.getText();
-			String medication = medicalConditionsTextArea.getText();
-			String nextOfKinName = nextOfKinNameTextField.getText();
-			String nextOfKinPhoneNumber = nextOfKinPhoneNumberTextField.getText();
-			int nextOfKinPhoneNumberAsInteger = Integer.parseInt(nextOfKinPhoneNumber);
-			String swimClub = swimClubNameComboBox.getSelectedItem().toString();
-			String status = statusComboBox.getSelectedItem().toString();
-			String level = swimmerLevelComboBox.getSelectedItem().toString();
-					
-			try{
-				
-				if (forename.isEmpty() || surname.isEmpty() || dateOfBirth.toString().isEmpty() || gender.isEmpty()
-					|| phoneNumber.isEmpty() || email.isEmpty() || medicalConditions.isEmpty()
-					|| medication.isEmpty() || nextOfKinName.isEmpty() || nextOfKinPhoneNumber.isEmpty()
-					|| swimClub.isEmpty() || status.isEmpty() || level.isEmpty()){
-					
-					throw new SomeFieldIsEmptyException();
-				}
-				
-		
-				// format date from the input field
-				GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
-				cal.setTime(dateOfBirth);
-				
-				Swimmer newSwimmer = new Swimmer(forename, surname, cal, Gender.valueOf(gender), phoneNumberAsInteger,
-												 email, medicalConditions, medication, nextOfKinName,
-												 nextOfKinPhoneNumberAsInteger, swimClub, Status.valueOf(status), level);
-				
+			PerformDatabaseOperations retrieveSpecifiedSwimmer = new PerformDatabaseOperations();
 			
-				PerformDatabaseOperations addNewSwimmerOperation = new PerformDatabaseOperations();
-				addNewSwimmerOperation.addSwimmerIntoTableSwimmers(newSwimmer);
-				PerformDatabaseOperations testOnly = new PerformDatabaseOperations();
-				testOnly.viewSwimmers();
-				RegisterSwimmerFrame.this.dispose();
-				MainFrame mainFrame = new MainFrame();
-				mainFrame.setVisible(true);
-				
-						
-			}catch(Exception SomeFieldIsEmptyException){
-				
-				JOptionPane.showMessageDialog(RegisterSwimmerFrame.this, "One of the fields is empty.");
-				
+			try {
+				retrieveSpecifiedSwimmer.updateSwimmerDetails();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
 			
 		}
 	}
@@ -361,7 +321,7 @@ public class RegisterSwimmerFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			RegisterSwimmerFrame.this.dispose();
+			AmendSwimmerFrame.this.dispose();
 			
 		}
 	
