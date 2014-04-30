@@ -3,6 +3,7 @@ package aoop2_project;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -15,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import aoop1_project.Swimmer;
+import aoop2_project.InternationalGala.TypeOfTiming;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -41,54 +45,53 @@ public class GalaFrame extends JFrame{
 		private JDateChooser dateOfGalaChosen;
 		private JComboBox<String> galaCityComboBox;
 		private JTextField galaNameTextField;
-		private JComboBox<String> galaCountryComboBox;
+		private static JComboBox<String> galaCountryComboBox;
 		private JTextField galaPaymentTextField;
-		private JTextField galaOrganiserNameTextField;
-		private JTextField galaOrganiserPhoneNumberTextField;
-		private JTextField galaOrganiserEmailTextField;
-		private JTextField poolAddressTextField;
-		private JTextField poolLengthTextField;
-		private JTextField durationInDaysTextField;
-		private JComboBox<String> typeOfTimingTextField;
+		private static JTextField galaOrganiserNameTextField;
+		private static JTextField galaOrganiserPhoneNumberTextField;
+		private static JTextField galaOrganiserEmailTextField;
+		private static JTextField poolAddressTextField;
+		private static JTextField poolLengthTextField;
+		private static JTextField durationInDaysTextField;
+		private static JComboBox<String> typeOfTimingComboBox;
 		
 		private JButton addGalaButton;
 		private JButton cancelButton;
 		
 		private JPanel contentPanel;	
 		
-		private JLabel nationalGalaLabel;
-		private JLabel internationalGalaLabel;
-		private JRadioButton nationalGalaButton;
+		private static JRadioButton nationalGalaButton;
 		private JRadioButton internationalGalaButton;
 		
 		private ButtonGroup groupTwoButtons;
 		
-		private Font fontHeading = new Font("Verdana", Font.BOLD, 18);
 		private Font fontSubHeading = new Font("Verdana", Font.BOLD, 16);
 		private Font fontLabel = new Font("Verdana", Font.PLAIN, 12);
-		private Font fontMenu = new Font("Verdana", Font.PLAIN, 12);
 		private Font fontTextField = new Font("Verdana", Font.PLAIN, 11);
 		private Font fontButton = new Font("Verdana", Font.PLAIN, 11);
-		private Font fontChecks = new Font("Verdana", Font.PLAIN,13);
-		
 		
 		private String[] galaCitiesArray = {"Killarney", "Tralee", "Limerick", "Dublin", "Cork",
 											"Paris", "Eindhoven", "Montreal", "Berlin", "Boston"};
-		
 		private String[] galaCountriesArray = {"Ireland", "France", "Holland", "Canada", "Germany", "USA"};
-		
 		private String[] typesOfTimingArray = {"electronic", "manual"};
+		
+		//declare arraylist of national galas
+		private ArrayList<NationalGala> nationalGalaArrayList;
+		private ArrayList<InternationalGala> internationalGalaArrayList;
+		
 	
 	
 	public GalaFrame(){
-		
 		createGalaFrame();
+		populateNationalGalaArrayList();
+		populateInternationalGalaArrayList();
 	}
 	
 	public static void main(String[] abc){
 		
 		GalaFrame galaFrame = new GalaFrame();
 		galaFrame.setVisible(true);
+		
 	}
 
 	private void createGalaFrame() {
@@ -110,19 +113,21 @@ public class GalaFrame extends JFrame{
 		
 		// panel for gala's details
 		
-		
-		nationalGalaButton = new JRadioButton("National Gala", true);
+		nationalGalaButton = new JRadioButton("National Gala");
 		nationalGalaButton.setBounds(20, 60, 120, 25);
+		NationalButtonIsSelectedHandler nationalButtonIsSelected = new NationalButtonIsSelectedHandler();
+		nationalGalaButton.addActionListener(nationalButtonIsSelected);
 		contentPanel.add(nationalGalaButton);
 		
 		internationalGalaButton = new JRadioButton("International Gala");
 		internationalGalaButton.setBounds(150, 60, 150, 25);
 		contentPanel.add(internationalGalaButton);
-		internationalGalaButton = new JRadioButton();
-		
+			
 		groupTwoButtons = new ButtonGroup();
 		groupTwoButtons.add(nationalGalaButton);
-		groupTwoButtons.add(internationalGalaButton); //doesnt work?
+		groupTwoButtons.add(internationalGalaButton);
+		
+		
 		
 		galaDateLabel = new JLabel("Date:");
 		galaDateLabel.setBounds(20, 100, 85, 25);
@@ -130,7 +135,7 @@ public class GalaFrame extends JFrame{
 		contentPanel.add(galaDateLabel);
 		
 		dateOfGalaChosen = new JDateChooser();
-		dateOfGalaChosen.setBounds(220, 100, 220, 22);
+		dateOfGalaChosen.setBounds(240, 100, 220, 22);
 		dateOfGalaChosen.setFont(fontTextField);
 		contentPanel.add(dateOfGalaChosen);
 		
@@ -140,69 +145,98 @@ public class GalaFrame extends JFrame{
 		contentPanel.add(galaCityLabel);
 		
 		galaCityComboBox = new JComboBox<String>(galaCitiesArray);
-		//galaCityComboBox.setBounds(190, y, width, height);
+		galaCityComboBox.setBounds(240, 130, 220, 22);
+		contentPanel.add(galaCityComboBox);
 		
 		galaNameLabel = new JLabel("Name:");
 		galaNameLabel.setBounds(20, 160, 85, 25);
 		galaNameLabel.setFont(fontLabel);
 		contentPanel.add(galaNameLabel);	
 		
-		
-		
+		galaNameTextField = new JTextField();
+		galaNameTextField.setBounds(240, 160, 220, 22);
+		contentPanel.add(galaNameTextField);
+				
 		galaCountryLabel = new JLabel("Country:");
 		galaCountryLabel.setBounds(20, 190, 85, 25);
 		galaCountryLabel.setFont(fontLabel);
 		contentPanel.add(galaCountryLabel);
 		
-		
+		galaCountryComboBox = new JComboBox<String>(galaCountriesArray);
+		galaCountryComboBox.setBounds(240, 190, 220, 22);
+		contentPanel.add(galaCountryComboBox);
 		
 		galaPaymentLabel = new JLabel("Payment:");
 		galaPaymentLabel.setBounds(20, 220, 85, 25);
 		galaPaymentLabel.setFont(fontLabel);
 		contentPanel.add(galaPaymentLabel);
 		
+		galaPaymentTextField = new JTextField();
+		galaPaymentTextField.setBounds(240, 220, 220, 22);
+		contentPanel.add(galaPaymentTextField);
 		
 		galaOrganiserNameLabel = new JLabel("Gala Organiser's name:");
 		galaOrganiserNameLabel.setBounds(20, 250, 160, 25);
 		galaOrganiserNameLabel.setFont(fontLabel);
 		contentPanel.add(galaOrganiserNameLabel);
 		
+		galaOrganiserPhoneNumberTextField = new JTextField();
+		galaOrganiserPhoneNumberTextField.setBounds(240, 250, 220, 22);
+		contentPanel.add(galaOrganiserPhoneNumberTextField);
 		
 		galaOrganiserPhoneNumberLabel = new JLabel("Gala Organiser's phone number:");
 		galaOrganiserPhoneNumberLabel.setBounds(20, 280, 210, 25);
 		galaOrganiserPhoneNumberLabel.setFont(fontLabel);
 		contentPanel.add(galaOrganiserPhoneNumberLabel);
 		
-		
+		galaOrganiserPhoneNumberTextField = new JTextField();
+		galaOrganiserPhoneNumberTextField.setBounds(240, 280, 220, 22);
+		contentPanel.add(galaOrganiserPhoneNumberTextField);
 		
 		galaOrganiserEmailLabel = new JLabel("Gala Organiser's email:");
 		galaOrganiserEmailLabel.setBounds(20, 310, 160, 25);
 		galaOrganiserEmailLabel.setFont(fontLabel);
 		contentPanel.add(galaOrganiserEmailLabel);
 		
+		galaOrganiserEmailTextField = new JTextField();
+		galaOrganiserEmailTextField.setBounds(240, 310, 220, 22);
+		contentPanel.add(galaOrganiserEmailTextField);
 		
 		poolAddressLabel = new JLabel("Pool address:");
 		poolAddressLabel.setBounds(20, 340, 160, 25);
 		poolAddressLabel.setFont(fontLabel);
 		contentPanel.add(poolAddressLabel);
 		
+		poolAddressTextField = new JTextField();
+		poolAddressTextField.setBounds(240, 340, 220, 22);
+		contentPanel.add(poolAddressTextField);
 		
 		poolLengthLabel = new JLabel("Pool length:");
 		poolLengthLabel.setBounds(20, 370, 160, 25);
 		poolLengthLabel.setFont(fontLabel);
 		contentPanel.add(poolLengthLabel);
 		
+		poolLengthTextField = new JTextField();
+		poolLengthTextField.setBounds(240, 370, 220, 22);
+		contentPanel.add(poolLengthTextField);
 		
 		durationInDaysLabel = new JLabel("Duration in days:");
 		durationInDaysLabel.setBounds(20, 400, 160, 25);
 		durationInDaysLabel.setFont(fontLabel);
 		contentPanel.add(durationInDaysLabel);
 		
+		durationInDaysTextField = new JTextField();
+		durationInDaysTextField.setBounds(240, 400, 220, 22);
+		contentPanel.add(durationInDaysTextField);
 		
 		typeOfTimingLabel = new JLabel("Type of timing:");
 		typeOfTimingLabel.setBounds(20, 430, 160, 25);
 		typeOfTimingLabel.setFont(fontLabel);
 		contentPanel.add(typeOfTimingLabel);
+		
+		typeOfTimingComboBox = new JComboBox<String>(typesOfTimingArray);
+		typeOfTimingComboBox.setBounds(240, 430, 220, 22);
+		contentPanel.add(typeOfTimingComboBox);
 		
 		// buttons
 		addGalaButton = new JButton("Add");
@@ -221,11 +255,90 @@ public class GalaFrame extends JFrame{
 		
 	}
 	
+	@SuppressWarnings("deprecation")
+	public void populateNationalGalaArrayList(){
+		
+		
+		// create an array list of galas
+		nationalGalaArrayList = new ArrayList<NationalGala>();
+		
+		// add a few galas to the nationalGalaArrayList
+		NationalGala nationalGala1 = new NationalGala(new Date(2015, 04, 23), "Kingdom Masters Gala", 6);
+		nationalGalaArrayList.add(nationalGala1);
+		NationalGala nationalGala2 = new NationalGala(new Date(2015, 06, 03), "Cork Masters Invitational Gala", 7);
+		nationalGalaArrayList.add(nationalGala2);
+		NationalGala nationalGala3 = new NationalGala(new Date(2014, 10, 10), "NAC Gala", 8);
+		nationalGalaArrayList.add(nationalGala3);
+		NationalGala nationalGala4 = new NationalGala(new Date(2014, 8, 12), "Fun Killarney Charity Gala", 20);
+		nationalGalaArrayList.add(nationalGala4);
+		
+			
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void populateInternationalGalaArrayList(){
+		
+		
+		// create an array list of galas
+		internationalGalaArrayList = new ArrayList<InternationalGala>();
+		
+		// add a few galas to the nationalGalaArrayList
+		InternationalGala internationalGala1 = 
+						new InternationalGala("Holland", "John Smith", 23733838,
+						"john.smith@gmail.com", "17 New Street", 19, 50, TypeOfTiming.electronic);
+		internationalGalaArrayList.add(internationalGala1);
+		
+		InternationalGala internationalGala2 = 
+						new InternationalGala("France", "Joan OBrien", 99933838,
+						"joan.obrien@gmail.com", "45 Board Street", 17, 50, TypeOfTiming.electronic);
+		internationalGalaArrayList.add(internationalGala2);
+
+		InternationalGala internationalGala3 = 
+						new InternationalGala("France", "Patricia OSullivan",1111933838,
+						"pat.osul@gmail.com", "12 Some Street", 7, 50, TypeOfTiming.electronic);
+		internationalGalaArrayList.add(internationalGala3);
+		
+	
+			
+	}
+	
+	
+	public class NationalButtonIsSelectedHandler implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent a) {
+			
+			try{
+			
+			//galaCountryComboBox.setEditable(false);
+			galaCountryComboBox.setSelectedItem(1);
+			galaOrganiserNameTextField.setEditable(false);
+			galaOrganiserPhoneNumberTextField.setEditable(false);
+			galaOrganiserEmailTextField.setEditable(false);
+			poolAddressTextField.setEditable(false);
+			poolLengthTextField.setEditable(false);
+			poolLengthTextField.setText("25m");
+			durationInDaysTextField.setEditable(false);
+			durationInDaysTextField.setText("1");
+			typeOfTimingComboBox.setEditable(false);
+			
+			}catch(Exception e){
+				
+			}
+			
+		}
+		
+		
+		
+	}
+	
 	public class AddGalaButtonHandler implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+	
+			
+			
 			
 		}
 		
@@ -236,7 +349,8 @@ public class GalaFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+
+			GalaFrame.this.dispose();
 			
 		}
 		

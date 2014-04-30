@@ -22,7 +22,7 @@ public class InternationalGala extends Gala {
 	public InternationalGala(String galaCountry, 
 			String galaOrganiserName, long galaOrganiserPhoneNumber,
 			String galaOrganiserEmail, String poolAddress, int durationInDays,
-			int poolLength) {
+			int poolLength, TypeOfTiming typeOfTiming) {
 		super();
 		this.galaCountry = galaCountry;
 		this.galaOrganiserName = galaOrganiserName;
@@ -31,6 +31,7 @@ public class InternationalGala extends Gala {
 		this.poolAddress = poolAddress;
 		this.durationInDays = durationInDays;
 		this.poolLength = poolLength;
+		setTypeOfTiming(TypeOfTiming);
 	}
 	
 	

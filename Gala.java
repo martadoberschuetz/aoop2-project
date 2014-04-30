@@ -9,12 +9,9 @@ public abstract class Gala {
 	private int galaId;
 	private Date galaDate;
 	private String galaCity; 
-	private String galaName; //name is the location of the gala + the word "gala"
-	private String[] galaLocalCities;
+	private String galaName; 
 	private int payment;
-	//boolean isLocal; //local means in Ireland
-	//boolean qualifyingTimesApply; //qualifying times apply for galas that are not local
-	
+
 	// no-argument constructor
 	@SuppressWarnings("static-access")
 	public Gala() {
@@ -24,8 +21,6 @@ public abstract class Gala {
 		setGalaDate(new Date());
 		setGalaName("unknown");
 		setPayment(0);
-		//setLocal(true);
-		//setQualifyingTimesApply(false);
 	}
 	
 	// full-argument constructor	
@@ -77,22 +72,6 @@ public abstract class Gala {
 	public int getPayment() {
 		return payment;
 	}
-
-	//public boolean isLocal() {
-	//	return isLocal;
-	//}
-
-	//public void setLocal(boolean isLocal) {
-	//	this.isLocal = isLocal;
-	//}
-
-	//public boolean isQualifyingTimesApply() {
-	//	return qualifyingTimesApply;
-	//}
-
-	//public void setQualifyingTimesApply(boolean qualifyingTimesApply) {
-	//	this.qualifyingTimesApply = qualifyingTimesApply;
-	//}
 
 	// the toString() method
 	@Override
