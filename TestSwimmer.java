@@ -15,7 +15,7 @@ public class TestSwimmer {
 	
 		Swimmer swimmer = new Swimmer("Michael", "Phelps", new GregorianCalendar(1985, 05, 30), Gender.male, 7897672, 
 										"michaelphelps@gmail.com", "none", "none", "Deborah Phelps",
-										56282828, "Baltimore Swimming Club", Status.active);
+										56282828, "Baltimore Swimming Club", Status.active, "Masters");
 		// note: the value for MONTH is 0-based!!
 		// so born in June corresponds to 05
 		System.out.println(swimmer.getDateOfBirth().getTime());
@@ -47,6 +47,8 @@ public class TestSwimmer {
 		System.out.println(swimmer.getSwimClubName());
 		swimmer.setStatus(Status.active);
 		System.out.println(swimmer.getStatus());
+		swimmer.setLevel("Professional athlete");
+		System.out.println(swimmer.getLevel());
 		
 
 

@@ -14,19 +14,25 @@ import javax.swing.JOptionPane;
 
 
 
+import javax.swing.JTextArea;
+
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
 
 /**
- * This class drop table Swimmer in case it already exists, 
- * and then creates a table called Swimmer. 
- * It also populates the table with some sample data. 
+ * This class contains methods to interact with the Swimmers database:
+ * drop the table if it already exists, 
+ * and then creates a table called Swimmers. 
+ * It also allows to populate the table with some sample data,
+ * delete a specified Swimmer
+ * update a specified Swimmer. 
+ * 
  * 
  * */
 
 public class PerformDatabaseOperations {
 
-	static String surnameEnteredByCustomer;
+	static String idEnteredByCustomer;
 	
 	//public PerformDatabaseOperations(){
 	//	dropTableSwimmers();
@@ -221,7 +227,7 @@ public class PerformDatabaseOperations {
 	//	new PerformDatabaseOperations();
 	///}
 	
-	public static void viewSwimmers(){
+	public void viewSwimmers(){
 		
 		Connection connection = null;
 		Statement scriptStatement = null;
@@ -251,6 +257,23 @@ public class PerformDatabaseOperations {
 				String swimClub = result.getString("SWIM_CLUB");
 				String status = result.getString("STATUS");
 				String level = result.getString("LEVEL");
+				
+				JTextArea allSwimmers = new JTextArea();
+				allSwimmers.append("Forename: " + forename);
+				allSwimmers.append("\nSurname: " + surname);
+				allSwimmers.append("\nDate of birth: " + dateOfBirth);
+				allSwimmers.append("\nGender: " + gender);
+				allSwimmers.append("\nPhone number: " + phoneNumber);
+				allSwimmers.append("\nEmail: " + email);
+				allSwimmers.append("\nMedical conditions: " + medicalConditions);
+				allSwimmers.append("\nMedication: " + medication);
+				allSwimmers.append("\nNext of kin' name: " + nextOfKinName);
+				allSwimmers.append("\nNext of kin's phone number: " + nextOfKinPhoneNumber);
+				allSwimmers.append("\nSwim club: " + swimClub);
+				allSwimmers.append("\nStatus" + status);
+				allSwimmers.append("\nLevel: " + level);
+				JOptionPane.showMessageDialog(null, allSwimmers);
+
 				
 				System.out.println("ID = " + ID);
 				System.out.println("FORENAME = "+ forename);
@@ -285,7 +308,7 @@ public class PerformDatabaseOperations {
 	public  void retrieveSwimmerFromDatabase()	{
 		
 		// ask for the surname
-		surnameEnteredByCustomer = JOptionPane.showInputDialog(null, "Swimmer's surname: ");
+		idEnteredByCustomer = JOptionPane.showInputDialog(null, "Swimmer's id: ");
 		
 		Connection connection = null;
 		Statement scriptStatement = null;
@@ -300,7 +323,7 @@ public class PerformDatabaseOperations {
 			// retrieve specified swimmer's details
 			// swimmer is specified by their surname
 			scriptStatement = connection.createStatement();
-			String retrieveSwimmerFromDatabase = "SELECT * FROM SWIMMERS WHERE SURNAME='" + surnameEnteredByCustomer + "'; ";
+			String retrieveSwimmerFromDatabase = "SELECT * FROM SWIMMERS WHERE ID='" + idEnteredByCustomer + "'; ";
 			ResultSet result = scriptStatement.executeQuery(retrieveSwimmerFromDatabase);
 			
 				
@@ -308,7 +331,7 @@ public class PerformDatabaseOperations {
 				int ID = result.getInt("ID");
 				String forename = result.getString("FORENAME");
 				String surname = result.getString("SURNAME");
-				String dateOfBirth = result.getString("DATE_OF_BIRTH");
+				Date dateOfBirth = result.getDate("DATE_OF_BIRTH");
 				String gender = result.getString("GENDER");
 				String phoneNumber = result.getString("PHONE_NUMBER");
 				String email = result.getString("EMAIL");
@@ -321,12 +344,12 @@ public class PerformDatabaseOperations {
 				String level = result.getString("LEVEL");
 				
 				// parse string to date
-				Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
+				//Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
 				 
 				// insert the data pulled from db into the text fields
 				AmendSwimmerFrame.forenameTextField.setText(forename);
 				AmendSwimmerFrame.surnameTextField.setText(surname);
-				AmendSwimmerFrame.dateOfBirthChosen.setDate(date);		
+				AmendSwimmerFrame.dateOfBirthChosen.setDate(dateOfBirth);		
 				AmendSwimmerFrame.genderComboBox.setSelectedItem(gender);
 				AmendSwimmerFrame.phoneNumberTextField.setText(phoneNumber);
 				AmendSwimmerFrame.emailTextField.setText(email);
@@ -339,7 +362,7 @@ public class PerformDatabaseOperations {
 				AmendSwimmerFrame.swimmerLevelComboBox.setSelectedItem(level);
 				
 				
-				JOptionPane.showMessageDialog(null, "Please amend Swimmer's details.");
+				//JOptionPane.showMessageDialog(null, "Please amend Swimmer's details.");
 				
 			}
 				
@@ -409,7 +432,7 @@ public class PerformDatabaseOperations {
 												+ "SWIM_CLUB='" + swimClub + "' "
 												+ "STATUS='" + status + "' "
 												+ "LEVEL='" + level + "' "
-												+ "WHERE EMAIL LIKE '" + surnameEnteredByCustomer + "';";
+												+ "WHERE ID LIKE '" + idEnteredByCustomer + "';";
 				
 						
 						scriptStatement.executeUpdate(updateCustomerDetails);
@@ -418,7 +441,7 @@ public class PerformDatabaseOperations {
 						
 						System.out.println("Records updated successfully");
 						
-						JOptionPane.showMessageDialog(null, "Thank you for updating your details " + surnameEnteredByCustomer);
+						JOptionPane.showMessageDialog(null, "Thank you for updating your details " + idEnteredByCustomer);
 						
 					
 						
@@ -428,5 +451,40 @@ public class PerformDatabaseOperations {
 		
 		
 	}
+	
+	public void deleteSwimmerFromDatabase(){
+		
+		// ask for the surname
+		idEnteredByCustomer = JOptionPane.showInputDialog(null, "Swimmer's id: ");
+		
+		Connection connection = null;
+		Statement scriptStatement = null;
+
+		try {
+			// connect to database
+			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager.getConnection("jdbc:sqlite:Swimmers.db");
+			System.out.println("Database opened.");
+
+			// delete a specified Swimmer 
+			scriptStatement = connection.createStatement();
+			
+			String deleteSwimmerFromDatabase = "DELETE FROM SWIMMERS WHERE ID='" + idEnteredByCustomer + "';";
+			
+			scriptStatement.executeUpdate(deleteSwimmerFromDatabase);
+			
+			// close the connection and statement
+			scriptStatement.close();
+			connection.close();
+			
+		} catch (Exception e) {
+			System.out.println(e.getClass().getName() + ": " +e.getMessage() );
+			System.exit(0);
+		}
+		System.out.println("Swimmer with id of " + idEnteredByCustomer + " has been deleted.");
+		
+	}
+	
+	
 	
 }

@@ -10,11 +10,11 @@ public class TestEuropeanChampionships {
 	public static void main(String[] args) {
 		
 		// test the no-argument constructor
-		EuropeanChampionships someGala = new EuropeanChampionships();
+		InternationalGala someGala = new InternationalGala();
 		System.out.println(someGala.toString());
 				
 		// test the full-argument constructor and toString()
-		EuropeanChampionships europeanChampionships = new EuropeanChampionships(new Date(2013, 9, 5), 
+		InternationalGala europeanChampionships = new InternationalGala(new Date(2013, 9, 5), 
 															"European Masters Swimming Chmapionships", 
 															"Eindhoven Swimming Club", 667777777, 
 															"info@fina2013.ho",

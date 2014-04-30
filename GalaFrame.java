@@ -1,83 +1,85 @@
 package aoop2_project;
 
-//import GUI and event handling packages
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Font;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-import com.toedter.calendar.JDateChooser;
 
+
+
+
+import aoop2_project.InternationalGala.TypeOfTiming;
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
 
-public class AmendSwimmerFrame extends JFrame{
+import com.toedter.calendar.JDateChooser;
+
+public class GalaFrame {
+
 	
-	// all labels
-	private JLabel enterDetailsLabel;
-	private JLabel forenameLabel;
-	private JLabel surnameLabel;
-	private JLabel dateOfBirthLabel;
-	private JLabel genderLabel;
-	
-	private JLabel phoneNumberLabel;
-	private JLabel emailLabel;
-	
-	private JLabel medicalConditionsLabel;
-	private JLabel medicationsLabel;
-	
-	private JLabel nextOfKinNameLabel;
-	private JLabel nextOfKinPhoneNumberLabel;
-	
-	private JLabel swimClubNameLabel;
-	private JLabel statusLabel;
-	private JLabel swimmerLevelLabel;
-	
-	
-	// textfields and comboboxes
-	static JTextField forenameTextField;
-	static JTextField surnameTextField;
-	static JDateChooser dateOfBirthChosen;
-	static JComboBox<Gender> genderComboBox;
-	static JComboBox<Status> statusComboBox;
-	static JTextField phoneNumberTextField;
-	static JTextField emailTextField;
-	static JTextArea medicalConditionsTextArea;
-	static JTextArea medicationTextArea;
-	static JTextField nextOfKinNameTextField;
-	static JTextField nextOfKinPhoneNumberTextField;
-	static JComboBox<String> swimClubNameComboBox;
-	static JComboBox<String> swimmerLevelComboBox;
-	
-	private JButton registerButton;
-	private JButton cancelButton;
-	
-	private JPanel contentPanel;	
-	
-	private Font fontHeading = new Font("Verdana", Font.BOLD, 18);
-	private Font fontSubHeading = new Font("Verdana", Font.BOLD, 16);
-	private Font fontLabel = new Font("Verdana", Font.PLAIN, 12);
-	private Font fontMenu = new Font("Verdana", Font.PLAIN, 12);
-	private Font fontTextField = new Font("Verdana", Font.PLAIN, 11);
-	private Font fontButton = new Font("Verdana", Font.PLAIN, 11);
-	private Font fontChecks = new Font("Verdana", Font.PLAIN,13);
-	
-	private Gender[] genders = {Gender.female, Gender.male};
-	private Status[] statuses = {Status.active, Status.inactive};
-	private String[] swimClubs = {"Killarney Swimming Club", "Kingdom Masters Swimming Club", "AerLingus Swimming Club",
-									"Cork Masters", "Dolphin Swimming Club", "Limerick Masters", "NAC"};
-	private String[] swimmerLevel = {"Masters"};
-	
-	
-	public AmendSwimmerFrame(){
+		// all labels
+		private JLabel enterDetailsLabel;
+		private JLabel galaDateLabel;
+		private JLabel galaCityLabel;
+		private JLabel galaNameLabel;
+		private JLabel galaCountryLabel;
+		private JLabel galaPaymentLabel;
+		private JLabel galaOrganiserNameLabel;
+		private JLabel galaOrganiserPhoneNumberLabel;
+		private JLabel poolAddressEmailLabel;
+		private JLabel poolLengthLabel;
+		private JLabel durationInDaysLabel;
+		private JLabel typeOfTimingLabel;
 		
-		createAmendSwimmerFrame();
-				
-	}
+		private String[] galaCities;
+		
+		// textfields and comboboxes
+		private JTextField forenameTextField;
+		private JTextField surnameTextField;
+		private JDateChooser dateOfBirthChosen;
+		private JComboBox<Gender> genderComboBox;
+		private JComboBox<Status> statusComboBox;
+		private JTextField phoneNumberTextField;
+		private JTextField emailTextField;
+		private JTextArea medicalConditionsTextArea;
+		private JTextArea medicationTextArea;
+		private JTextField nextOfKinNameTextField;
+		private JTextField nextOfKinPhoneNumberTextField;
+		private JComboBox<String> swimClubNameComboBox;
+		private JComboBox<String> swimmerLevelComboBox;
+		
+		private JButton registerButton;
+		private JButton cancelButton;
+		
+		private JPanel contentPanel;	
+		
+		private Font fontHeading = new Font("Verdana", Font.BOLD, 18);
+		private Font fontSubHeading = new Font("Verdana", Font.BOLD, 16);
+		private Font fontLabel = new Font("Verdana", Font.PLAIN, 12);
+		private Font fontMenu = new Font("Verdana", Font.PLAIN, 12);
+		private Font fontTextField = new Font("Verdana", Font.PLAIN, 11);
+		private Font fontButton = new Font("Verdana", Font.PLAIN, 11);
+		private Font fontChecks = new Font("Verdana", Font.PLAIN,13);
+		
+		private Gender[] genders = {Gender.female, Gender.male};
+		private Status[] statuses = {Status.active, Status.inactive};
+		private String[] swimClubs = {"Killarney Swimming Club", "Kingdom Masters Swimming Club", "AerLingus Swimming Club",
+										"Cork Masters", "Dolphin Swimming Club", "Limerick Masters", "NAC"};
+		private String[] swimmerLevel = {"Masters"};
 	
-	public void createAmendSwimmerFrame(){
+	
+	public GalaFrame(){
+		createGalaFrame();
+	}
+
+	private void createGalaFrame() {
 		
 		contentPanel = new JPanel();
 		contentPanel.setLayout(null);
@@ -85,11 +87,11 @@ public class AmendSwimmerFrame extends JFrame{
 		
 		setLocation(50, 50);
 		setSize(750, 450);
-		setTitle("Amend swimmer's details");
+		setTitle("Swimmer Registration");
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		enterDetailsLabel = new JLabel("Please amend Swimmer's details");
+		enterDetailsLabel = new JLabel("Please enter Swimmer's details");
 		enterDetailsLabel.setBounds(10, 10, 400, 25);
 		enterDetailsLabel.setFont(fontSubHeading);
 		contentPanel.add(enterDetailsLabel);
@@ -265,13 +267,14 @@ public class AmendSwimmerFrame extends JFrame{
 		swimmerLevelComboBox.setFont(fontTextField);
 		swimClubInformationPanel.add(swimmerLevelComboBox);
 		
+		
 		// buttons
-		registerButton = new JButton("Amend");
+		registerButton = new JButton("Register");
 		registerButton.setBounds(40, 350, 100, 30);
 		registerButton.setFont(fontButton);
 		contentPanel.add(registerButton);
-		AmendSwimmerButtonHandler amendSwimmerButtonHandler = new AmendSwimmerButtonHandler();
-		registerButton.addActionListener(amendSwimmerButtonHandler);
+		RegisterSwimmerButtonHandler registerSwimmerButtonHandler = new RegisterSwimmerButtonHandler();
+		registerButton.addActionListener(registerSwimmerButtonHandler);
 		
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(160, 350, 100, 30);
@@ -282,43 +285,5 @@ public class AmendSwimmerFrame extends JFrame{
 		
 	}
 	
-	// for testing purposes only
-	//public static void main(String[] abc){
-		
-	//	AmendSwimmerFrame newFrame = new AmendSwimmerFrame();
-	//	newFrame.setVisible(true);
-	//}
 	
-	
-	class AmendSwimmerButtonHandler implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-
-			//new AmendSwimmerFrame();
-			//PerformDatabaseOperations retrieveSpecifiedSwimmer = new PerformDatabaseOperations();
-			//retrieveSpecifiedSwimmer.retrieveSwimmerFromDatabase();
-			//retrieveSpecifiedSwimmer.updateSwimmerDetails();
-			
-		}
-	}
-	
-	private class SomeFieldIsEmptyException extends Exception{
-	
-		//
-
-	}
-	
-
-	class CancelRegistrationButtonHandler implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-
-			AmendSwimmerFrame.this.dispose();
-			
-		}
-	
-	}
-	
-}// end class
+}

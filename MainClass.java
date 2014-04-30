@@ -9,7 +9,7 @@ public class MainClass {
 		mainFrame.setVisible(true);
 		
 		// create the Swimmer table
-		new PerformDatabaseOperations();
+		//new PerformDatabaseOperations();
 		
 		
 		

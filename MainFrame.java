@@ -160,6 +160,8 @@ public class MainFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			PerformDatabaseOperations viewSwimmers = new PerformDatabaseOperations();
+			viewSwimmers.viewSwimmers();
 			
 		}
 	}
@@ -171,6 +173,8 @@ public class MainFrame extends JFrame{
 
 			AmendSwimmerFrame newFrame = new AmendSwimmerFrame();
 			newFrame.setVisible(true);
+			PerformDatabaseOperations loadSwimmerDetails = new PerformDatabaseOperations();
+			loadSwimmerDetails.retrieveSwimmerFromDatabase();
 			
 			
 			
@@ -181,7 +185,9 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			PerformDatabaseOperations deactivateSwimmer = new PerformDatabaseOperations();
+			deactivateSwimmer.deleteSwimmerFromDatabase();
 			
 		}
 	}
