@@ -5,8 +5,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import javax.swing.*;
+
 import com.toedter.calendar.JDateChooser;
+
 import aoop2_project.Swimmer.Gender;
 import aoop2_project.Swimmer.Status;
 
@@ -292,23 +295,26 @@ public class RegisterSwimmerFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-
+			
+		
+			
 			// get text from all the fields in the form
 			String forename = forenameTextField.getText();
 			String surname = surnameTextField.getText();
 			Date dateOfBirth = dateOfBirthChosen.getDate();		
 			String gender = genderComboBox.getSelectedItem().toString();
 			String phoneNumber = phoneNumberTextField.getText();
-			int phoneNumberAsInteger = Integer.parseInt(phoneNumber);
 			String email = emailTextField.getText();
 			String medicalConditions = medicalConditionsTextArea.getText();
 			String medication = medicalConditionsTextArea.getText();
 			String nextOfKinName = nextOfKinNameTextField.getText();
 			String nextOfKinPhoneNumber = nextOfKinPhoneNumberTextField.getText();
-			int nextOfKinPhoneNumberAsInteger = Integer.parseInt(nextOfKinPhoneNumber);
 			String swimClub = swimClubNameComboBox.getSelectedItem().toString();
 			String status = statusComboBox.getSelectedItem().toString();
 			String level = swimmerLevelComboBox.getSelectedItem().toString();
+			int phoneNumberAsInteger = 0;
+			int nextOfKinPhoneNumberAsInteger = 0;
+			GregorianCalendar cal = null;
 					
 			try{
 				
@@ -317,13 +323,31 @@ public class RegisterSwimmerFrame extends JFrame{
 					|| medication.isEmpty() || nextOfKinName.isEmpty() || nextOfKinPhoneNumber.isEmpty()
 					|| swimClub.isEmpty() || status.isEmpty() || level.isEmpty()){
 					
-					throw new SomeFieldIsEmptyException();
+					throw new Exception();
 				}
+			
+			}catch(Exception someOfTheFieldsAreEmptyException){
 				
-		
+				JOptionPane.showMessageDialog(RegisterSwimmerFrame.this, "One of the fields is empty.");
+				
+			}
+				
+			try{
+				phoneNumberAsInteger = Integer.parseInt(phoneNumber);
+				nextOfKinPhoneNumberAsInteger = Integer.parseInt(nextOfKinPhoneNumber);
+				
+			}catch(Exception e){
+					
+				JOptionPane.showMessageDialog(RegisterSwimmerFrame.this, "Phone number field is either empty or you did not enter a valid number.");
+					
+			}
+				
+	
 				// format date from the input field
-				GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+				cal = (GregorianCalendar) GregorianCalendar.getInstance();
 				cal.setTime(dateOfBirth);
+		
+	
 				
 				Swimmer newSwimmer = new Swimmer(forename, surname, cal, Gender.valueOf(gender), phoneNumberAsInteger,
 												 email, medicalConditions, medication, nextOfKinName,
@@ -340,21 +364,21 @@ public class RegisterSwimmerFrame extends JFrame{
 				//mainFrame.setVisible(true);
 				
 						
-			}catch(Exception SomeFieldIsEmptyException){
+			
 				
-				JOptionPane.showMessageDialog(RegisterSwimmerFrame.this, "One of the fields is empty.");
+				
 				
 			}
 			
+				
+				
+				
+			}
 			
-		}
+		
 	}
 	
-	private class SomeFieldIsEmptyException extends Exception{
-	
-		//
 
-	}
 	
 
 	class CancelRegistrationButtonHandler implements ActionListener{
@@ -362,10 +386,9 @@ public class RegisterSwimmerFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			RegisterSwimmerFrame.this.dispose();
+		//	RegisterSwimmerFrame.this.dispose();
 			
 		}
 	
 	}
 	
-}// end class

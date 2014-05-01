@@ -52,14 +52,14 @@ public class MainFrame extends JFrame{
 		//menu bar
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		swimmerMenu = new JMenu("Swimmer");
+		swimmerMenu = new JMenu("Swimmers");
 		menuBar.add(swimmerMenu);
-		galaMenu = new JMenu("Gala");
+		galaMenu = new JMenu("Galas");
 		menuBar.add(galaMenu);
-		competitionMenu = new JMenu("Competition");
-		menuBar.add(competitionMenu);
-		adminMenu = new JMenu("Admin");
-		menuBar.add(adminMenu);
+		//competitionMenu = new JMenu("Competition");
+		//menuBar.add(competitionMenu);
+		//adminMenu = new JMenu("Admin");
+		//menuBar.add(adminMenu);
 		
 		//menu and menu items
 		JMenuItem item;
@@ -113,34 +113,34 @@ public class MainFrame extends JFrame{
 		item.addActionListener(viewGalaHandler);
 		
 		// Menu item Competition -> View qulifying swimmers
-		item = new JMenuItem("View qualifying swimmers");
-		competitionMenu.add(item);
-		ViewQualifyingSwimmersHandler viewQualifyingSwimmersHandler = new ViewQualifyingSwimmersHandler();
-		item.addActionListener(viewQualifyingSwimmersHandler);
+	//	item = new JMenuItem("View qualifying swimmers");
+	//	competitionMenu.add(item);
+	//	ViewQualifyingSwimmersHandler viewQualifyingSwimmersHandler = new ViewQualifyingSwimmersHandler();
+	//	item.addActionListener(viewQualifyingSwimmersHandler);
 		
 		// Menu item Competition -> Do I qualify?
-		item = new JMenuItem("Do I qualify?");
-		competitionMenu.add(item);
-		DoIQualifyHandler doIQulifyHandler = new DoIQualifyHandler();
-		item.addActionListener(doIQulifyHandler);
+	//	item = new JMenuItem("Do I qualify?");
+	//	competitionMenu.add(item);
+	//	DoIQualifyHandler doIQulifyHandler = new DoIQualifyHandler();
+	//	item.addActionListener(doIQulifyHandler);
 		
 		// Menu item Competition -> Enter a gala
-		item = new JMenuItem("Enter a gala");
-		competitionMenu.add(item);
-		EnterAGalaHandler enterAGalaHandler = new EnterAGalaHandler();
-		item.addActionListener(enterAGalaHandler);
+	//	item = new JMenuItem("Enter a gala");
+	//	competitionMenu.add(item);
+	//	EnterAGalaHandler enterAGalaHandler = new EnterAGalaHandler();
+	//	item.addActionListener(enterAGalaHandler);
 		
 		// Menu item Admin -> Load
-		item = new JMenuItem("Load");
-		adminMenu.add(item);
-		LoadDataHandler loadDataHandler = new LoadDataHandler();
-		item.addActionListener(loadDataHandler);
+	//	item = new JMenuItem("Load");
+	//	adminMenu.add(item);
+	//	LoadDataHandler loadDataHandler = new LoadDataHandler();
+	//	item.addActionListener(loadDataHandler);
 		
 		// Menu item Admin -> Save
-		item = new JMenuItem("Save");
-		adminMenu.add(item);
-		SaveDataHandler saveDataHandler = new SaveDataHandler();
-		item.addActionListener(saveDataHandler);
+	//	item = new JMenuItem("Save");
+	//	adminMenu.add(item);
+	//	SaveDataHandler saveDataHandler = new SaveDataHandler();
+	//	item.addActionListener(saveDataHandler);
 	}
 	
 	class RegisterSwimmerHandler implements ActionListener{

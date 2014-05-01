@@ -76,7 +76,7 @@ public class GalaFrame extends JFrame{
 		private String[] galaCountriesArray = {"Ireland", "France", "Holland", "Canada", "Germany", "USA"};
 		private String[] typesOfTimingArray = {"electronic", "manual"};
 		
-		//declare arraylist of national galas
+		//declare arraylist of galas
 		static ArrayList<NationalGala> nationalGalaArrayList;
 		static ArrayList<InternationalGala> internationalGalaArrayList;
 		
@@ -281,6 +281,7 @@ public class GalaFrame extends JFrame{
 	}
 	
 	@SuppressWarnings("deprecation")
+	
 	public static void populateInternationalGalaArrayList(){
 		
 		
@@ -289,26 +290,26 @@ public class GalaFrame extends JFrame{
 		
 		// add a few galas to the nationalGalaArrayList
 		InternationalGala internationalGala1 = 
-						new InternationalGala(new Date(2012, 12, 17), "Championships in Holland", 12,
+						new InternationalGala(new Date(2012, 12, 17), "Championships in Holland", 12, "Eindhoven",
 											"Holland", "John Smith", 23733838,
 											"john.smith@gmail.com", "17 New Street", 19, 50, 
 											TypeOfTiming.electronic);
 		internationalGalaArrayList.add(internationalGala1);
 		
 		InternationalGala internationalGala2 = 
-						new InternationalGala(new Date(2017, 06, 12), "Championnats de France", 20, 
+						new InternationalGala(new Date(2017, 06, 12), "Championnats de France", 20, "Toulouse",
 											"France", "Joan OBrien", 99933838,
 											"joan.obrien@gmail.com", "45 Board Street", 17, 50, 
 											TypeOfTiming.electronic);
 		internationalGalaArrayList.add(internationalGala2);
 
 		InternationalGala internationalGala3 = 
-						new InternationalGala(new Date(2016, 8, 23), "La France a la Piscine", 23, 
+						new InternationalGala(new Date(2016, 8, 23), "La France a la Piscine", 23, "Lyon",
 											"France", "Patricia OSullivan",1111933838,
 											"pat.osul@gmail.com", "12 Some Street", 7, 50, TypeOfTiming.electronic);
 		internationalGalaArrayList.add(internationalGala3);
 		
-	
+
 			
 	}
 	
@@ -355,9 +356,11 @@ public class GalaFrame extends JFrame{
 	
 	public class AddGalaButtonHandler implements ActionListener{
 
+		@SuppressWarnings("static-access")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 	
+			try{
 			
 			if (nationalGalaButton.isSelected()){
 				
@@ -372,9 +375,10 @@ public class GalaFrame extends JFrame{
 				nationalGalaArrayList.add(newGala);	
 				JOptionPane.showMessageDialog(null, "A Gala has been added");
 				GalaFrame.this.dispose();
-
+				
 			}else{
 				
+
 				// get data from texfields and comboboxes
 				Date date = dateOfGalaChosen.getDate();
 				String city = galaCityComboBox.getSelectedItem().toString();
@@ -395,20 +399,28 @@ public class GalaFrame extends JFrame{
 				TypeOfTiming typeOfTiming = null;
 				typeOfTiming.valueOf(timing);
 				
-				InternationalGala newGala = new InternationalGala(date, name, paymentAsInt, country,
-						organiserName, phoneNumberAsLong, organiserEmail, 
-						address, durationAsInt, lengthAsInt, typeOfTiming);
+				InternationalGala newGala = new InternationalGala(date, name, paymentAsInt, city, country,
+						 organiserName, phoneNumberAsLong, organiserEmail, 
+						 address, durationAsInt, lengthAsInt, typeOfTiming);
+	
 				
 				internationalGalaArrayList.add(newGala);
 				JOptionPane.showMessageDialog(null, "A Gala has been added");
 				GalaFrame.this.dispose();
 				
-				
 			}
-			
-			
-		}
-		
+				}catch(NumberFormatException e){
+					
+					JOptionPane.showMessageDialog(GalaFrame.this, "Something went wrong"
+												+ "\nCheck that correct format of data was entered.");
+				}catch(Exception e){
+					
+					JOptionPane.showMessageDialog(GalaFrame.this, "Something went wrong"
+												+ "\nCheck that all fields are filled.");
+					
+				}
+				
+		}	
 		
 	}
 	
@@ -425,4 +437,4 @@ public class GalaFrame extends JFrame{
 	}
 	
 	
-}
+	}

@@ -19,18 +19,19 @@ public class InternationalGala extends Gala {
 	
 	
 	// InternationalGala constructor
-	public InternationalGala(Date galaDate, String galaName, int payment, String galaCountry, 
+	public InternationalGala(Date galaDate, String galaName, int payment, String city, String galaCountry, 
 			String galaOrganiserName, long galaOrganiserPhoneNumber,
 			String galaOrganiserEmail, String poolAddress, int durationInDays,
 			int poolLength, TypeOfTiming typeOfTiming) {
 		super(galaDate, galaName, payment);
-		this.galaCountry = galaCountry;
-		this.galaOrganiserName = galaOrganiserName;
-		this.galaOrganiserPhoneNumber = galaOrganiserPhoneNumber;
-		this.galaOrganiserEmail = galaOrganiserEmail;
-		this.poolAddress = poolAddress;
-		this.durationInDays = durationInDays;
-		this.poolLength = poolLength;
+		setGalaCity(city);
+		setGalaCountry(galaCountry);
+		setGalaOrganiserName(galaOrganiserName);
+		setGalaOrganiserPhoneNumber(galaOrganiserPhoneNumber);
+		setGalaOrganiserEmail(galaOrganiserEmail);
+		setPoolAddress(poolAddress);
+		setDurationInDays(durationInDays);
+		setPoolLength(poolLength);
 		setTypeOfTiming(TypeOfTiming);
 	}
 	
