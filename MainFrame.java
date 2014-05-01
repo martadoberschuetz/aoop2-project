@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 
 
 
+
 //import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -94,10 +95,10 @@ public class MainFrame extends JFrame{
 		item.addActionListener(registerGalaHandler);
 		
 		// Menu item Gala -> Amend
-		item = new JMenuItem("Amend");
-		galaMenu.add(item);
-		AmendGalaHandler amendGalaHandler = new AmendGalaHandler();
-		item.addActionListener(amendGalaHandler);
+		//item = new JMenuItem("Amend");
+		//galaMenu.add(item);
+		///AmendGalaHandler amendGalaHandler = new AmendGalaHandler();
+		//item.addActionListener(amendGalaHandler);
 		
 		// Menu item Gala -> Cancel
 		item = new JMenuItem("Cancel");
@@ -196,7 +197,10 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			GalaFrame galaFrame = new GalaFrame();
+			galaFrame.setVisible(true);
+			
 			
 		}
 		
@@ -207,7 +211,7 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+		
 			
 		}
 		
@@ -218,7 +222,81 @@ public class MainFrame extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			
+			GalaFrame.populateNationalGalaArrayList();
+			GalaFrame.populateInternationalGalaArrayList();
+			
+			String galaTypeInput = JOptionPane.showInputDialog("Which gala do you want to delete? "
+					+ "Type 1 for national or 2 for international.");
+			
+			if (galaTypeInput.equals("1")){
+			
+			String userInput = JOptionPane.showInputDialog("Enter galas's ID you wish to cancel:");
+				
+				//check if the input is a digit
+				if (userInput.matches("\\d+")){
+					
+					int inputAsInteger = Integer.parseInt(userInput);
+				
+						//now check if the input is greater than 0, as ID numbers start at 1
+						//and check if the number is not bigger that the size of the array
+						if(inputAsInteger > 0 && inputAsInteger < GalaFrame.nationalGalaArrayList.size()){
+							
+							for (int i = 0; i < GalaFrame.nationalGalaArrayList.size(); i++){
+								if (GalaFrame.nationalGalaArrayList.get(i).getGalaId() == inputAsInteger){
+									System.out.println(GalaFrame.nationalGalaArrayList.get(i).getGalaName());
+									GalaFrame.nationalGalaArrayList.remove(i);
+									JOptionPane.showMessageDialog(null, String.format("Gala with ID number of %d has been deleted", 
+											inputAsInteger), "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+								}
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, 
+									String.format("Please enter a number greater than 0 or greater than the size of the array which is %d",
+											GalaFrame.nationalGalaArrayList.size()), "Error", JOptionPane.INFORMATION_MESSAGE);
+							}
+				}else{
+					JOptionPane.showMessageDialog(null, "Please enter a number!", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+			}else if (galaTypeInput.equals("2")){
+			
+			
+				String userInput = JOptionPane.showInputDialog("Enter galas's ID you wish to cancel:");
+				
+				//check if the input is a digit
+				if (userInput.matches("\\d+")){
+					
+					int inputAsInteger = Integer.parseInt(userInput);
+				
+						//now check if the input is greater than 0, as ID numbers start at 1
+						//and check if the number is not bigger that the size of the array
+						if(inputAsInteger > 0 && inputAsInteger < GalaFrame.internationalGalaArrayList.size()){
+							
+							for (int i = 0; i < GalaFrame.internationalGalaArrayList.size(); i++){
+								if (GalaFrame.internationalGalaArrayList.get(i).getGalaId() == inputAsInteger){
+									System.out.println(GalaFrame.internationalGalaArrayList.get(i).getGalaName());
+									GalaFrame.internationalGalaArrayList.remove(i);
+									JOptionPane.showMessageDialog(null, String.format("Gala with ID number of %d has been deleted", 
+											inputAsInteger), "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+								}
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, 
+									String.format("Please enter a number greater than 0 or greater than the size of the array which is %d",
+											GalaFrame.internationalGalaArrayList.size()), "Error", JOptionPane.INFORMATION_MESSAGE);
+							}
+				}else{
+					JOptionPane.showMessageDialog(null, "Please enter a number!", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				
+				
+		}else{
+			
+			JOptionPane.showMessageDialog(null, "Please enter either 1 or 2!", "Error", JOptionPane.INFORMATION_MESSAGE);
+			
+		}
 			
 		}
 		
@@ -229,7 +307,18 @@ public class MainFrame extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			JOptionPane.showMessageDialog(null, "Click ok to view all national galas");
+			GalaFrame.populateNationalGalaArrayList();
+			for (NationalGala x: GalaFrame.nationalGalaArrayList){
+				JOptionPane.showMessageDialog(null, x);
+			}
+			
+			JOptionPane.showMessageDialog(null, "Click ok to view all international galas");
+			GalaFrame.populateInternationalGalaArrayList();
+			for (InternationalGala x: GalaFrame.internationalGalaArrayList){
+				JOptionPane.showMessageDialog(null, x);
+			}
 			
 		}
 		
@@ -282,4 +371,5 @@ public class MainFrame extends JFrame{
 		
 	}
 	
-}	
+}
+	

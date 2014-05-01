@@ -293,7 +293,7 @@ public class RegisterSwimmerFrame extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
-			// get text from all the field in the form
+			// get text from all the fields in the form
 			String forename = forenameTextField.getText();
 			String surname = surnameTextField.getText();
 			Date dateOfBirth = dateOfBirthChosen.getDate();		
@@ -332,11 +332,12 @@ public class RegisterSwimmerFrame extends JFrame{
 			
 				PerformDatabaseOperations addNewSwimmerOperation = new PerformDatabaseOperations();
 				addNewSwimmerOperation.addSwimmerIntoTableSwimmers(newSwimmer);
-				PerformDatabaseOperations testOnly = new PerformDatabaseOperations();
-				testOnly.viewSwimmers();
+				JOptionPane.showMessageDialog(RegisterSwimmerFrame.this, "A swimmer has been added.");
+				//PerformDatabaseOperations testOnly = new PerformDatabaseOperations();
+				//testOnly.viewSwimmers();
 				RegisterSwimmerFrame.this.dispose();
-				MainFrame mainFrame = new MainFrame();
-				mainFrame.setVisible(true);
+				//MainFrame mainFrame = new MainFrame();
+				//mainFrame.setVisible(true);
 				
 						
 			}catch(Exception SomeFieldIsEmptyException){

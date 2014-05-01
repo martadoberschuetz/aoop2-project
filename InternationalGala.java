@@ -19,11 +19,11 @@ public class InternationalGala extends Gala {
 	
 	
 	// InternationalGala constructor
-	public InternationalGala(String galaCountry, 
+	public InternationalGala(Date galaDate, String galaName, int payment, String galaCountry, 
 			String galaOrganiserName, long galaOrganiserPhoneNumber,
 			String galaOrganiserEmail, String poolAddress, int durationInDays,
 			int poolLength, TypeOfTiming typeOfTiming) {
-		super();
+		super(galaDate, galaName, payment);
 		this.galaCountry = galaCountry;
 		this.galaOrganiserName = galaOrganiserName;
 		this.galaOrganiserPhoneNumber = galaOrganiserPhoneNumber;
@@ -94,18 +94,26 @@ public class InternationalGala extends Gala {
 	}
 
 
-	@Override
-	public String toString() {
-		return "InternationalGala [galaCountry=" + galaCountry
-				+ ", galaOrganiserName=" + galaOrganiserName
-				+ ", galaOrganiserPhoneNumber=" + galaOrganiserPhoneNumber
-				+ ", galaOrganiserEmail=" + galaOrganiserEmail
-				+ ", poolAddress=" + poolAddress + ", durationInDays="
-				+ durationInDays + ", poolLength=" + poolLength + "]";
-	}
-	
-	
-	
+
+	// the toString() method
+		@Override
+		public String toString() {
+			return "The ID of the gala is: " + getGalaId() 
+					+ ",\nthe date of the gala is: " + getGalaDate()
+					+ ",\nthe name of the gala is: " + getGalaName()
+					+ ",\npayment for one event is: " + getPayment() + " euro."
+					+ ",\ncity of the gala is: " + getGalaCity()
+					+ ",\ncountry of the gala is: " + getGalaCountry()
+					+ ",\nthe name of the organiser of the gala is: " + getGalaOrganiserName()
+					+ ",\nthe phone number of the gala organiser: " + getGalaOrganiserPhoneNumber()
+					+ ",\nthe email of the gala organiser: " + getGalaOrganiserPhoneNumber()
+					+ ",\nthe address of the pool is: " + getGalaOrganiserEmail()
+					+ ",\nduration in dys of the gala is: " + getDurationInDays()
+					+ ",\nlength of the pool is: " + getPoolLength()
+					+ ",\ntype of timing they use is: " + getTypeOfTiming();
+				
+				
+		}
 	
 	
 

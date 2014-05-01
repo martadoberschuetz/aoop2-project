@@ -5,7 +5,7 @@ import java.util.Date;
 public abstract class Gala {
 
 	// data members
-	private static int id;
+	private static int id = 0;
 	private int galaId;
 	private Date galaDate;
 	private String galaCity; 
